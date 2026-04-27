@@ -4,6 +4,22 @@ import type { FiletypeParserOptions, TreeSitterClient } from "@opentui/core"
 const require = createRequire(import.meta.url)
 
 export const basicSyntaxLanguages: FiletypeParserOptions[] = [
+  language(
+    "javascript",
+    "@vscode/tree-sitter-wasm/wasm/tree-sitter-javascript.wasm",
+    "tree-sitter-javascript/queries/highlights.scm",
+    ["js", "mjs", "cjs", "jsx", "javascriptreact"],
+  ),
+  language(
+    "typescript",
+    "@vscode/tree-sitter-wasm/wasm/tree-sitter-typescript.wasm",
+    "tree-sitter-typescript/queries/highlights.scm",
+    ["ts", "mts", "cts"],
+  ),
+  language("tsx", "@vscode/tree-sitter-wasm/wasm/tree-sitter-tsx.wasm", "tree-sitter-typescript/queries/highlights.scm", [
+    "tsx",
+    "typescriptreact",
+  ]),
   language("python", "@vscode/tree-sitter-wasm/wasm/tree-sitter-python.wasm", "tree-sitter-python/queries/highlights.scm", [
     "py",
     "pyi",
@@ -32,9 +48,7 @@ export const basicSyntaxLanguages: FiletypeParserOptions[] = [
     "rb",
   ]),
   language("php", "@vscode/tree-sitter-wasm/wasm/tree-sitter-php.wasm", "tree-sitter-php/queries/highlights.scm"),
-  language("html", "@lumis-sh/wasm-html/tree-sitter-html.wasm", "tree-sitter-html/queries/highlights.scm", [
-    "htm",
-  ]),
+  language("html", "@lumis-sh/wasm-html/tree-sitter-html.wasm", "tree-sitter-html/queries/highlights.scm", ["htm"]),
   language("css", "@vscode/tree-sitter-wasm/wasm/tree-sitter-css.wasm", "tree-sitter-css/queries/highlights.scm"),
   language("json", "@lumis-sh/wasm-json/tree-sitter-json.wasm", "tree-sitter-json/queries/highlights.scm", [
     "jsonc",
@@ -50,6 +64,13 @@ export const basicSyntaxLanguages: FiletypeParserOptions[] = [
     "pgsql",
     "psql",
   ]),
+  language(
+    "vue",
+    "tree-sitter-wasms/out/tree-sitter-vue.wasm",
+    "./queries/vue-highlights.scm",
+    ["vue"],
+    ["./queries/vue-injections.scm"],
+  ),
 ]
 
 export function registerBasicSyntaxLanguages(client: TreeSitterClient): void {
@@ -58,13 +79,20 @@ export function registerBasicSyntaxLanguages(client: TreeSitterClient): void {
   }
 }
 
-function language(filetype: string, wasm: string, highlights: string, aliases: string[] = []): FiletypeParserOptions {
+function language(
+  filetype: string,
+  wasm: string,
+  highlights: string,
+  aliases: string[] = [],
+  injections: string[] = [],
+): FiletypeParserOptions {
   return {
     filetype,
     aliases,
     wasm: require.resolve(wasm),
     queries: {
       highlights: [require.resolve(highlights)],
+      ...(injections.length > 0 ? { injections: injections.map((query) => require.resolve(query)) } : {}),
     },
   }
 }

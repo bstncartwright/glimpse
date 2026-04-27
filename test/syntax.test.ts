@@ -73,6 +73,9 @@ describe("syntax helpers", () => {
       "script.zsh": "bash",
       "program.cs": "csharp",
       "config.yaml": "yaml",
+      "component.jsx": "javascript",
+      "component.tsx": "tsx",
+      "component.vue": "vue",
     }
 
     for (const [path, filetype] of Object.entries(paths)) {
@@ -90,6 +93,7 @@ describe("syntax helpers", () => {
       "go",
       "html",
       "java",
+      "javascript",
       "json",
       "php",
       "python",
@@ -97,18 +101,38 @@ describe("syntax helpers", () => {
       "rust",
       "sql",
       "toml",
+      "tsx",
+      "typescript",
+      "vue",
       "yaml",
     ])
   })
 
-  test("highlights sql with the registered language pack", async () => {
+  test("highlights sql and vue with the registered language pack", async () => {
     const state = createSyntaxState()
-    const result = await state.client.highlightOnce("select id from users where active = true;\n", "sql")
+    const sqlResult = await state.client.highlightOnce("select id from users where active = true;\n", "sql")
+    const vueResult = await state.client.highlightOnce(
+      `<template><div :count=\"count\">{{ count }}</div></template>\n<script setup lang=\"ts\">const count = 1</script>\n`,
+      "vue",
+    )
     await state.client.destroy()
 
-    expect(result.error).toBeUndefined()
-    expect(result.warning).toBeUndefined()
-    expect(result.highlights?.length).toBeGreaterThan(0)
+    expect(sqlResult.error).toBeUndefined()
+    expect(sqlResult.warning).toBeUndefined()
+    expect(sqlResult.highlights?.length).toBeGreaterThan(0)
+    expect(vueResult.error).toBeUndefined()
+    expect(vueResult.warning).toBeUndefined()
+    expect(vueResult.highlights?.length).toBeGreaterThan(0)
+  })
+
+  test("includes react and vue-related filetype aliases in the language pack", () => {
+    const javascript = basicSyntaxLanguages.find((language) => language.filetype === "javascript")
+    const tsx = basicSyntaxLanguages.find((language) => language.filetype === "tsx")
+    const vue = basicSyntaxLanguages.find((language) => language.filetype === "vue")
+
+    expect(javascript?.aliases).toContain("jsx")
+    expect(tsx?.aliases).toContain("tsx")
+    expect(vue?.aliases).toContain("vue")
   })
 
   test("builds old and new synthetic documents with row mappings", () => {
