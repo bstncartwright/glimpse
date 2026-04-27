@@ -34,7 +34,8 @@
     "generate:large-varied-sample": "bun run scripts/generate-varied-fixture.ts",
     "prepack": "bun run typecheck && bun test",
     "test": "bun test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "bun run typecheck"
   },
   "devDependencies": {
     "@types/bun": "^1.3.13",
