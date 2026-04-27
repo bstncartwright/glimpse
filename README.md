@@ -72,7 +72,7 @@ it will:
 2. bump `package.json` version (patch/minor/major, or use an explicit version input)
 3. commit + push that change to `main`
 4. create and push `v<version>` tag
-5. create and publish a github release for that tag
+5. create and publish a github release for that tag with auto-generated release notes
 6. trigger `Publish to npm` automatically via the release event
 
 notes:

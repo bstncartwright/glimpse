@@ -141,7 +141,7 @@ jobs:
           PRERELEASE: ${{ github.event.inputs.prerelease }}
         run: |
           if [ "$PRERELEASE" = "true" ]; then
-            gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Automated release for $TAG_NAME" --prerelease
+            gh release create "$TAG_NAME" --title "$TAG_NAME" --generate-notes --prerelease
           else
-            gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Automated release for $TAG_NAME"
+            gh release create "$TAG_NAME" --title "$TAG_NAME" --generate-notes
           fi
