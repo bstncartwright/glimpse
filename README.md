@@ -4,6 +4,10 @@ full-screen terminal diff review, built with bun and opentui.
 
 glimpse opens a git diff in a keyboard-native terminal ui with file tabs, side-by-side or stacked diff layouts, hunk navigation, word wrap, inline highlights, and syntax coloring for common languages.
 
+## why
+
+this project started as a tool i built to help myself review agents' work better in a place where i already am: the terminal.
+
 ## install
 
 glimpse runs on [bun](https://bun.sh/). install bun first, then install the cli from npm:
