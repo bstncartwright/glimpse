@@ -1,0 +1,525 @@
+diff --git a/src/app.ts b/src/app.ts
+index 1010101..2020202 100644
+--- a/src/app.ts
++++ b/src/app.ts
+@@ -1,18 +1,22 @@
+ import { createServer } from "bun"
+ import { renderApp } from "./render"
+ import { loadDiffSet } from "./diff-source"
+ 
+-const port = 3000
++const port = Number(process.env.PORT ?? 3000)
++const hostname = process.env.HOST ?? "127.0.0.1"
+ 
+ async function main() {
+   const diffSet = await loadDiffSet()
+-  const server = createServer({
++  const server = createServer({
++    hostname,
+     port,
+     fetch(request) {
+-      return renderApp(diffSet, request)
++      const url = new URL(request.url)
++      return renderApp(diffSet, url.pathname)
+     },
+   })
+ 
+-  console.log(`listening on ${server.port}`)
++  console.log(`listening on ${hostname}:${server.port}`)
+ }
+ 
+ main()
+diff --git a/src/render.ts b/src/render.ts
+index 3030303..4040404 100644
+--- a/src/render.ts
++++ b/src/render.ts
+@@ -8,24 +8,32 @@ const colors = {
+   bg: "#0b0f14",
+   panel: "#101821",
+   border: "#26323d",
+-  text: "#d6dee6"
++  text: "#d6dee6",
++  muted: "#65717d",
++  active: "#4fb3d8",
++  activeBg: "#102f3c",
+ }
+ 
+ export function renderTabs(files, activeIndex) {
+-  return files.map((file) => file.path).join(" ")
++  return files
++    .map((file, index) => {
++      const active = index === activeIndex
++      const marker = active ? ">" : file.status
++      return ` ${marker} ${file.path} `
++    })
++    .join("")
+ }
+ 
+ export function renderPane(rows) {
+   return rows
+     .map((row) => {
+-      if (row.kind === "add") return `+ ${row.text}`
+-      if (row.kind === "delete") return `- ${row.text}`
++      if (row.kind === "add") return `+ ${row.newText}`
++      if (row.kind === "delete") return `- ${row.oldText}`
++      if (row.kind === "modify") return `~ ${row.oldText} -> ${row.newText}`
+       return `  ${row.text}`
+     })
+     .join("\n")
+ }
+diff --git a/src/parser.ts b/src/parser.ts
+index 5050505..6060606 100644
+--- a/src/parser.ts
++++ b/src/parser.ts
+@@ -1,32 +1,43 @@
+ export function parseUnifiedDiff(raw: string) {
+   const files = []
+   let currentFile = null
+   let currentHunk = null
+ 
+-  for (const line of raw.split("\n")) {
++  for (const line of raw.split(/\r?\n/)) {
+     if (line.startsWith("diff --git ")) {
++      finishFile(currentFile)
+       currentFile = createFile(line)
+       files.push(currentFile)
+       continue
+     }
+ 
+     if (!currentFile) {
+       continue
+     }
+ 
+     if (line.startsWith("@@ ")) {
+       currentHunk = createHunk(line)
+       currentFile.hunks.push(currentHunk)
+       continue
+     }
+ 
+     if (!currentHunk) {
+       continue
+     }
+ 
+-    currentHunk.rows.push(parseLine(line))
++    const row = parseLine(line)
++    if (row) {
++      currentHunk.rows.push(row)
++    }
+   }
+ 
++  finishFile(currentFile)
+   return files
+ }
+ 
++function finishFile(file) {
++  if (!file) return
++  file.displayPath = file.newPath ?? file.oldPath ?? "(unknown)"
++}
++
+ function createFile(line: string) {
+   return {
+     header: line,
+     hunks: [],
+   }
+ }
+diff --git a/src/state.ts b/src/state.ts
+index 7070707..8080808 100644
+--- a/src/state.ts
++++ b/src/state.ts
+@@ -1,23 +1,29 @@
+ export function createInitialState(diffSet) {
+   return {
+     diffSet,
+     activeFileIndex: 0,
+     scrollYByPath: {},
++    mode: "normal",
+   }
+ }
+ 
+ export function moveFile(state, delta) {
+   const count = state.diffSet.files.length
+   if (count === 0) return state
+-  const next = state.activeFileIndex + delta
++  const next = clamp(state.activeFileIndex + delta, 0, count - 1)
+   return {
+     ...state,
+-    activeFileIndex: Math.max(0, Math.min(next, count - 1)),
++    activeFileIndex: next,
++    message: null,
+   }
+ }
+ 
+ export function setScrollY(state, value) {
+   return {
+     ...state,
+     scrollYByPath: {
+       ...state.scrollYByPath,
+-      [state.activeFileIndex]: value,
++      [activePath(state)]: Math.max(0, value),
+     },
+   }
+ }
+diff --git a/src/keyboard.ts b/src/keyboard.ts
+new file mode 100644
+index 0000000..9090909
+--- /dev/null
++++ b/src/keyboard.ts
+@@ -0,0 +1,53 @@
++import type { KeyEvent } from "@opentui/core"
++import type { AppState } from "./types"
++import { moveFile, setScrollY, toggleHelp } from "./state"
++
++export function reduceKey(state: AppState, key: KeyEvent): AppState | "quit" {
++  if (key.name === "q" || key.name === "escape") {
++    return "quit"
++  }
++
++  if (key.name === "?") {
++    return toggleHelp(state)
++  }
++
++  if (state.mode === "help") {
++    return toggleHelp(state)
++  }
++
++  if (key.name === "l" || key.name === "]" || key.name === "tab") {
++    return moveFile(state, 1)
++  }
++
++  if (key.name === "h" || key.name === "[") {
++    return moveFile(state, -1)
++  }
++
++  if (key.name === "j" || key.name === "down") {
++    return setScrollY(state, currentScroll(state) + 1)
++  }
++
++  if (key.name === "k" || key.name === "up") {
++    return setScrollY(state, currentScroll(state) - 1)
++  }
++
++  if (key.ctrl && key.name === "d") {
++    return setScrollY(state, currentScroll(state) + 12)
++  }
++
++  if (key.ctrl && key.name === "u") {
++    return setScrollY(state, currentScroll(state) - 12)
++  }
++
++  return state
++}
++
++function currentScroll(state: AppState): number {
++  const file = state.diffSet.files[state.activeFileIndex]
++  if (!file) return 0
++  return state.scrollYByPath[file.displayPath] ?? 0
++}
+diff --git a/src/theme.ts b/src/theme.ts
+new file mode 100644
+index 0000000..aaaaaaa
+--- /dev/null
++++ b/src/theme.ts
+@@ -0,0 +1,34 @@
++export const theme = {
++  bg: "#0b0f14",
++  panel: "#101821",
++  border: "#26323d",
++  text: "#d6dee6",
++  muted: "#65717d",
++  subtle: "#3c4853",
++  active: "#4fb3d8",
++  activeBg: "#102f3c",
++  add: "#7bd88f",
++  addBg: "#102819",
++  del: "#f7768e",
++  delBg: "#30151b",
++  warn: "#e6c678",
++  command: "#88c0d0",
++}
++
++export type Theme = typeof theme
++
++export function getStatusColor(status: string): string {
++  switch (status) {
++    case "added":
++      return theme.add
++    case "deleted":
++      return theme.del
++    case "renamed":
++      return theme.warn
++    case "binary":
++      return theme.command
++    default:
++      return theme.text
++  }
++}
+diff --git a/src/config.ts b/src/config.ts
+new file mode 100644
+index 0000000..bbbbbbb
+--- /dev/null
++++ b/src/config.ts
+@@ -0,0 +1,45 @@
++export type Config = {
++  contextLines: number
++  wrap: boolean
++  showWhitespace: boolean
++  keybindings: Record<string, string[]>
++}
++
++export const defaultConfig: Config = {
++  contextLines: 3,
++  wrap: false,
++  showWhitespace: false,
++  keybindings: {
++    nextFile: ["l", "]", "tab"],
++    previousFile: ["h", "["],
++    scrollDown: ["j", "down"],
++    scrollUp: ["k", "up"],
++  },
++}
++
++export async function loadConfig(cwd = process.cwd()): Promise<Config> {
++  const user = await readJson(`${process.env.HOME}/.config/glimpse/config.json`)
++  const local = await readJson(`${cwd}/.glimpserc.json`)
++  return mergeConfig(defaultConfig, user, local)
++}
++
++function mergeConfig(...configs: Array<Partial<Config> | null>): Config {
++  return configs.reduce<Config>(
++    (merged, config) => ({
++      ...merged,
++      ...(config ?? {}),
++      keybindings: {
++        ...merged.keybindings,
++        ...(config?.keybindings ?? {}),
++      },
++    }),
++    defaultConfig,
++  )
++}
++
++async function readJson(path: string): Promise<Partial<Config> | null> {
++  try {
++    return await Bun.file(path).json()
++  } catch {
++    return null
++  }
++}
+diff --git a/test/parser.test.ts b/test/parser.test.ts
+index ccccccc..ddddddd 100644
+--- a/test/parser.test.ts
++++ b/test/parser.test.ts
+@@ -1,14 +1,23 @@
+ import { describe, expect, test } from "bun:test"
+ import { parseUnifiedDiff } from "../src/parser"
+ 
+ describe("parseUnifiedDiff", () => {
+   test("parses modified files", () => {
+     const parsed = parseUnifiedDiff(sample)
+     expect(parsed.files).toHaveLength(1)
+   })
++
++  test("parses added files", () => {
++    const parsed = parseUnifiedDiff(addedFileSample)
++    expect(parsed.files[0].status).toBe("added")
++  })
++
++  test("parses renamed files", () => {
++    const parsed = parseUnifiedDiff(renameSample)
++    expect(parsed.files[0].status).toBe("renamed")
++  })
+ })
+ 
+ const sample = `diff --git a/a.ts b/a.ts
+ --- a/a.ts
+ +++ b/a.ts
+ @@ -1 +1 @@
+diff --git a/README.md b/README.md
+index eeeeeee..fffffff 100644
+--- a/README.md
++++ b/README.md
+@@ -1,13 +1,21 @@
+ # glimpse
+ 
+-terminal diff viewer
++full-screen terminal diff review, built with bun and opentui.
+ 
+ ## run
+ 
+ ```bash
+ bun install
+ bun run dev
+ ```
+ 
++## sample data
++
++```bash
++bun run dev --file fixtures/sample.diff
++bun run dev --file fixtures/big-sample.diff
++```
++
+ ## keys
+ 
+ ```text
+ h/l, [/]           previous/next file tab
+diff --git a/docs/architecture.md b/docs/architecture.md
+new file mode 100644
+index 0000000..1212121
+--- /dev/null
++++ b/docs/architecture.md
+@@ -0,0 +1,44 @@
++# architecture
++
++glimpse has four main layers.
++
++## source loading
++
++the cli resolves whether the user wants unstaged changes, staged changes, a
++range, stdin, or a saved patch file. source loading should not know anything
++about opentui.
++
++## parser
++
++the parser converts unified diff text into an internal model. render code should
++never need to inspect raw patch lines.
++
++## state
++
++state tracks the active tab, scroll positions, mode, and transient messages.
++state transitions should be testable without a terminal.
++
++## render
++
++render converts state into opentui renderables. it should be able to redraw from
++scratch because layout depends on terminal size.
++
++## future work
++
++- fuzzy file picker
++- command palette
++- config file support
++- line wrapping
++- word-level change highlights
++- open in editor
+diff --git a/docs/old-plan.md b/docs/old-plan.md
+deleted file mode 100644
+index 3434343..0000000
+--- a/docs/old-plan.md
++++ /dev/null
+@@ -1,20 +0,0 @@
+-# old plan
+-
+-this draft assumed file navigation would live in a sidebar.
+-
+-## issues
+-
+-- the sidebar takes too much horizontal room.
+-- side-by-side panes get cramped.
+-- keyboard focus is ambiguous.
+-- tabs are closer to the user's original mental model.
+-
+-## replacement
+-
+-use a top tab strip for file navigation.
+diff --git a/assets/demo.gif b/assets/demo.gif
+new file mode 100644
+index 0000000..1313131
+Binary files /dev/null and b/assets/demo.gif differ
+diff --git a/src/old-sidebar.ts b/src/old-sidebar.ts
+deleted file mode 100644
+index 1414141..0000000
+--- a/src/old-sidebar.ts
++++ /dev/null
+@@ -1,37 +0,0 @@
+-export function renderSidebar(files, active) {
+-  return files
+-    .map((file, index) => {
+-      const selected = index === active
+-      const prefix = selected ? ">" : " "
+-      return `${prefix} ${file.status} ${file.path}`
+-    })
+-    .join("\n")
+-}
+-
+-export function sidebarWidth(columns) {
+-  return Math.min(46, Math.max(28, Math.floor(columns * 0.28)))
+-}
+-
+-export function sidebarHelp() {
+-  return [
+-    "j/k move files",
+-    "enter open file",
+-    "/ filter files",
+-  ].join("\n")
+-}
+diff --git a/src/file-list.ts b/src/file-tabs.ts
+similarity index 62%
+rename from src/file-list.ts
+rename to src/file-tabs.ts
+index 1515151..1616161 100644
+--- a/src/file-list.ts
++++ b/src/file-tabs.ts
+@@ -1,19 +1,27 @@
+-export function renderFileList(files, active) {
++export function renderFileTabs(files, active) {
+   return files
+     .map((file, index) => {
+       const selected = index === active
+-      const marker = selected ? ">" : " "
+-      return `${marker} ${file.path}`
++      const marker = selected ? ">" : file.status[0]
++      const stats = selected ? ` +${file.added} -${file.deleted}` : ""
++      return ` ${marker} ${file.path}${stats} `
+     })
+     .join("")
+ }
+ 
+-export function visibleFiles(files, active, height) {
+-  const start = Math.max(0, active - Math.floor(height / 2))
+-  return files.slice(start, start + height)
++export function visibleTabs(files, active, width) {
++  let used = 0
++  const tabs = []
++  for (let index = active; index < files.length; index += 1) {
++    const tab = files[index]
++    used += tab.path.length + 6
++    if (used > width) break
++    tabs.push(tab)
++  }
++  return tabs
+ }
+diff --git a/package.json b/package.json
+index 1717171..1818181 100644
+--- a/package.json
++++ b/package.json
+@@ -6,10 +6,12 @@
+   "scripts": {
+     "dev": "bun run src/index.ts",
+     "test": "bun test",
+-    "typecheck": "tsc --noEmit"
++    "typecheck": "tsc --noEmit",
++    "sample": "bun run src/index.ts --file fixtures/big-sample.diff"
+   },
+   "dependencies": {
+-    "@opentui/core": "^0.1.103"
++    "@opentui/core": "^0.1.103",
++    "fast-fuzzy": "^1.12.0"
+   }
+ }
+diff --git a/.glimpserc.json b/.glimpserc.json
+new file mode 100644
+index 0000000..1919191
+--- /dev/null
++++ b/.glimpserc.json
+@@ -0,0 +1,13 @@
++{
++  "contextLines": 5,
++  "wrap": false,
++  "showWhitespace": false,
++  "keybindings": {
++    "nextFile": ["l", "]", "tab"],
++    "previousFile": ["h", "["],
++    "nextHunk": ["J"],
++    "previousHunk": ["K"]
++  }
++}

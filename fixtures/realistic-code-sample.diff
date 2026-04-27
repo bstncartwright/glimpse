@@ -1,0 +1,267 @@
+diff --git a/src/orders/create-order.ts b/src/orders/create-order.ts
+index 3c1d5a2..8f4b9e1 100644
+--- a/src/orders/create-order.ts
++++ b/src/orders/create-order.ts
+@@ -1,43 +1,74 @@
+ import { db } from "../db"
+ import { enqueueReceiptEmail } from "../mail/receipts"
+ import { reserveInventory } from "../warehouse/inventory"
+ import type { CartLine, Customer, Order } from "./types"
+ 
+ type CreateOrderInput = {
+   customer: Customer
+   lines: CartLine[]
+   couponCode?: string
++  idempotencyKey?: string
+ }
+ 
+ export async function createOrder(input: CreateOrderInput): Promise<Order> {
+-  const subtotal = input.lines.reduce((sum, line) => sum + line.price * line.quantity, 0)
+-  const discount = input.couponCode ? await loadDiscount(input.couponCode) : 0
+-  const total = subtotal - discount
++  if (input.lines.length === 0) {
++    throw new Error("cannot create an order with an empty cart")
++  }
+ 
+-  const order = await db.orders.insert({
+-    customerId: input.customer.id,
+-    status: "pending",
+-    subtotal,
+-    discount,
+-    total,
+-  })
++  return db.transaction(async (tx) => {
++    if (input.idempotencyKey) {
++      const existing = await tx.orders.findByIdempotencyKey(input.customer.id, input.idempotencyKey)
++      if (existing) return existing
++    }
+ 
+-  for (const line of input.lines) {
+-    await db.orderLines.insert({
+-      orderId: order.id,
+-      sku: line.sku,
+-      quantity: line.quantity,
+-      unitPrice: line.price,
++    const subtotal = input.lines.reduce((sum, line) => sum + line.price * line.quantity, 0)
++    const discount = input.couponCode ? await loadDiscount(input.couponCode, subtotal) : 0
++    const total = Math.max(0, subtotal - discount)
++
++    const order = await tx.orders.insert({
++      customerId: input.customer.id,
++      idempotencyKey: input.idempotencyKey ?? null,
++      status: "pending",
++      subtotal,
++      discount,
++      total,
+     })
+-  }
+ 
+-  await reserveInventory(order.id, input.lines)
+-  await enqueueReceiptEmail(order.id)
++    await tx.orderLines.insertMany(
++      input.lines.map((line) => ({
++        orderId: order.id,
++        sku: line.sku,
++        quantity: line.quantity,
++        unitPrice: line.price,
++      })),
++    )
+ 
+-  return order
++    await reserveInventory(order.id, input.lines, { transaction: tx })
++    await enqueueReceiptEmail(order.id, { delayUntilCommit: true })
++
++    return order
++  })
+ }
+ 
+-async function loadDiscount(couponCode: string) {
++async function loadDiscount(couponCode: string, subtotal: number) {
+   const coupon = await db.coupons.findByCode(couponCode)
+   if (!coupon || coupon.expiresAt < new Date()) {
+     return 0
+   }
+ 
+-  return coupon.amountOff
++  if (coupon.minimumSubtotal && subtotal < coupon.minimumSubtotal) {
++    return 0
++  }
++
++  if (coupon.percentOff) {
++    return Math.floor(subtotal * coupon.percentOff)
++  }
++
++  return Math.min(coupon.amountOff, subtotal)
+ }
+diff --git a/src/orders/order-summary.tsx b/src/orders/order-summary.tsx
+index 9ab2741..c7d98a4 100644
+--- a/src/orders/order-summary.tsx
++++ b/src/orders/order-summary.tsx
+@@ -8,49 +8,67 @@ type Props = {
+   orders: Order[]
+   selectedId?: string
+   onSelect(orderId: string): void
+ }
+ 
+ export function OrderSummary({ orders, selectedId, onSelect }: Props) {
+-  const visibleOrders = orders.filter((order) => order.status !== "cancelled")
++  const visibleOrders = useMemo(
++    () => orders.filter((order) => order.status !== "cancelled").sort(byMostRecentActivity),
++    [orders],
++  )
+ 
+   if (visibleOrders.length === 0) {
+     return <EmptyState />
+   }
+ 
+   return (
+     <section aria-label="orders">
+       <header className="orders-header">
+         <h2>recent orders</h2>
+-        <span>{visibleOrders.length} open</span>
++        <span>{visibleOrders.length} active</span>
+       </header>
+ 
+       <table className="orders-table">
+         <thead>
+           <tr>
+             <th>customer</th>
+             <th>status</th>
+             <th>total</th>
++            <th>last update</th>
+           </tr>
+         </thead>
+         <tbody>
+           {visibleOrders.map((order) => (
+             <tr
+               key={order.id}
+               className={order.id === selectedId ? "selected" : undefined}
+               onClick={() => onSelect(order.id)}
+             >
+               <td>
+                 <strong>{order.customerName}</strong>
+-                <small>{order.customerEmail}</small>
++                <small>{formatEmail(order.customerEmail)}</small>
+               </td>
+-              <td>{order.status}</td>
++              <td>
++                <StatusPill status={order.status} />
++              </td>
+               <td>{formatCurrency(order.total)}</td>
++              <td>{formatRelativeTime(order.updatedAt)}</td>
+             </tr>
+           ))}
+         </tbody>
+       </table>
+     </section>
+   )
+ }
+ 
++function byMostRecentActivity(left: Order, right: Order) {
++  return new Date(right.updatedAt).getTime() - new Date(left.updatedAt).getTime()
++}
++
++function formatEmail(email: string) {
++  return email.length > 28 ? `${email.slice(0, 24)}...` : email
++}
++
+ function formatCurrency(cents: number) {
+   return new Intl.NumberFormat("en-US", {
+     style: "currency",
+     currency: "USD",
+   }).format(cents / 100)
+ }
+diff --git a/db/migrations/20260426_add_order_idempotency.sql b/db/migrations/20260426_add_order_idempotency.sql
+new file mode 100644
+index 0000000..91df24c
+--- /dev/null
++++ b/db/migrations/20260426_add_order_idempotency.sql
+@@ -0,0 +1,25 @@
++alter table orders
++  add column idempotency_key text,
++  add column updated_at timestamptz not null default now();
++
++create unique index orders_customer_id_idempotency_key_idx
++  on orders (customer_id, idempotency_key)
++  where idempotency_key is not null;
++
++create or replace function touch_order_updated_at()
++returns trigger as $$
++begin
++  new.updated_at = now();
++  return new;
++end;
++$$ language plpgsql;
++
++create trigger orders_touch_updated_at
++before update on orders
++for each row
++execute function touch_order_updated_at();
++
++update orders
++set updated_at = coalesce(paid_at, created_at)
++where updated_at is null;
++
+diff --git a/test/orders/create-order.test.ts b/test/orders/create-order.test.ts
+index 7140cb8..a73e2d9 100644
+--- a/test/orders/create-order.test.ts
++++ b/test/orders/create-order.test.ts
+@@ -12,28 +12,58 @@ describe("createOrder", () => {
+   beforeEach(async () => {
+     await resetDatabase()
+   })
+ 
+-  test("creates an order and reserves inventory", async () => {
++  test("creates an order, reserves inventory, and queues a receipt", async () => {
+     const customer = await factories.customer()
+     const line = await factories.cartLine({ sku: "sku-hoodie", price: 6400, quantity: 2 })
+ 
+     const order = await createOrder({
+       customer,
+       lines: [line],
+     })
+ 
+     expect(order.total).toBe(12800)
+     expect(await inventory.reserved("sku-hoodie")).toBe(2)
++    expect(await mailer.queued("receipt", order.id)).toBe(true)
+   })
+ 
+-  test("applies coupons", async () => {
++  test("applies a coupon after checking the subtotal requirement", async () => {
+     const customer = await factories.customer()
+-    await factories.coupon({ code: "SAVE10", amountOff: 1000 })
++    await factories.coupon({ code: "SAVE10", amountOff: 1000, minimumSubtotal: 5000 })
+ 
+     const order = await createOrder({
+       customer,
+       couponCode: "SAVE10",
+       lines: [await factories.cartLine({ price: 6400, quantity: 1 })],
+     })
+ 
+     expect(order.discount).toBe(1000)
+     expect(order.total).toBe(5400)
+   })
++
++  test("reuses the existing order for repeated idempotency keys", async () => {
++    const customer = await factories.customer()
++    const lines = [await factories.cartLine({ sku: "sku-socks", price: 1200, quantity: 1 })]
++
++    const first = await createOrder({
++      customer,
++      lines,
++      idempotencyKey: "checkout_01hzv4b6b8m3",
++    })
++    const second = await createOrder({
++      customer,
++      lines,
++      idempotencyKey: "checkout_01hzv4b6b8m3",
++    })
++
++    expect(second.id).toBe(first.id)
++    expect(await inventory.reserved("sku-socks")).toBe(1)
++  })
+ })
+diff --git a/assets/screenshots/order-summary-after.png b/assets/screenshots/order-summary-after.png
+new file mode 100644
+index 0000000..c924d14
+Binary files /dev/null and b/assets/screenshots/order-summary-after.png differ

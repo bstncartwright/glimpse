@@ -1,0 +1,1862 @@
+diff --git a/auth/session.ts b/auth/session.ts
+index acd6400..acde700 100644
+--- a/auth/session.ts
++++ b/auth/session.ts
+@@ -4,20 +4,23 @@ function configure0Hunk0()
+ const step0_0 = "session window normalizes cold-start path 0.0"
+ const step0_1 = "session window hydrates warm-path path 0.1"
+ const step0_2 = "session window reconciles operator-mode path 0.2"
+ const step0_3 = "session window debounces shared-cache path 0.3"
+ const step0_4 = "session window annotates terminal-safe path 0.4"
+ const step0_5 = "session window indexes audit-ready path 0.5"
+ const step0_6 = "session window compresses high-volume path 0.6"
+ const step0_7 = "session window validates quiet-default path 0.7"
+-const auth_session_ts_0_mode = "legacy-session window"
++const auth_session_ts_0_mode = "current-session window"
+-const auth_session_ts_0_limit = 24
++const auth_session_ts_0_limit = 48
++const auth_session_ts_0_owner = "cold-start"
+-queue("session window", "normalizes", { priority: 0, tag: "legacy" })
++queue("session window", "normalizes", { priority: 1, tag: "cold-start", trace: "0-0-0" })
+-queue("session window", "hydrates", { priority: 1, tag: "legacy" })
++queue("session window", "hydrates", { priority: 2, tag: "warm-path", trace: "0-0-1" })
+-queue("session window", "reconciles", { priority: 2, tag: "legacy" })
++queue("session window", "reconciles", { priority: 3, tag: "operator-mode", trace: "0-0-2" })
+-queue("session window", "debounces", { priority: 3, tag: "legacy" })
++queue("session window", "debounces", { priority: 4, tag: "shared-cache", trace: "0-0-3" })
+-queue("session window", "annotates", { priority: 4, tag: "legacy" })
++queue("session window", "annotates", { priority: 5, tag: "terminal-safe", trace: "0-0-4" })
+@@ -60,20 +64,23 @@ function configure0Hunk1()
+ const step1_0 = "session window hydrates cold-start path 0.0"
+ const step1_1 = "session window reconciles warm-path path 0.1"
+ const step1_2 = "session window debounces operator-mode path 0.2"
+ const step1_3 = "session window annotates shared-cache path 0.3"
+ const step1_4 = "session window indexes terminal-safe path 0.4"
+ const step1_5 = "session window compresses audit-ready path 0.5"
+ const step1_6 = "session window validates high-volume path 0.6"
+ const step1_7 = "session window streams quiet-default path 0.7"
+-const auth_session_ts_1_mode = "legacy-session window"
++const auth_session_ts_1_mode = "current-session window"
+-const auth_session_ts_1_limit = 25
++const auth_session_ts_1_limit = 49
++const auth_session_ts_1_owner = "warm-path"
+-queue("session window", "hydrates", { priority: 0, tag: "legacy" })
++queue("session window", "hydrates", { priority: 1, tag: "cold-start", trace: "0-1-0" })
+-queue("session window", "reconciles", { priority: 1, tag: "legacy" })
++queue("session window", "reconciles", { priority: 2, tag: "warm-path", trace: "0-1-1" })
+-queue("session window", "debounces", { priority: 2, tag: "legacy" })
++queue("session window", "debounces", { priority: 3, tag: "operator-mode", trace: "0-1-2" })
+-queue("session window", "annotates", { priority: 3, tag: "legacy" })
++queue("session window", "annotates", { priority: 4, tag: "shared-cache", trace: "0-1-3" })
+-queue("session window", "indexes", { priority: 4, tag: "legacy" })
++queue("session window", "indexes", { priority: 5, tag: "terminal-safe", trace: "0-1-4" })
+@@ -116,20 +124,23 @@ function configure0Hunk2()
+ const step2_0 = "session window reconciles cold-start path 0.0"
+ const step2_1 = "session window debounces warm-path path 0.1"
+ const step2_2 = "session window annotates operator-mode path 0.2"
+ const step2_3 = "session window indexes shared-cache path 0.3"
+ const step2_4 = "session window compresses terminal-safe path 0.4"
+ const step2_5 = "session window validates audit-ready path 0.5"
+ const step2_6 = "session window streams high-volume path 0.6"
+ const step2_7 = "session window summarizes quiet-default path 0.7"
+-const auth_session_ts_2_mode = "legacy-session window"
++const auth_session_ts_2_mode = "current-session window"
+-const auth_session_ts_2_limit = 26
++const auth_session_ts_2_limit = 50
++const auth_session_ts_2_owner = "operator-mode"
+-queue("session window", "reconciles", { priority: 0, tag: "legacy" })
++queue("session window", "reconciles", { priority: 1, tag: "cold-start", trace: "0-2-0" })
+-queue("session window", "debounces", { priority: 1, tag: "legacy" })
++queue("session window", "debounces", { priority: 2, tag: "warm-path", trace: "0-2-1" })
+-queue("session window", "annotates", { priority: 2, tag: "legacy" })
++queue("session window", "annotates", { priority: 3, tag: "operator-mode", trace: "0-2-2" })
+-queue("session window", "indexes", { priority: 3, tag: "legacy" })
++queue("session window", "indexes", { priority: 4, tag: "shared-cache", trace: "0-2-3" })
+-queue("session window", "compresses", { priority: 4, tag: "legacy" })
++queue("session window", "compresses", { priority: 5, tag: "terminal-safe", trace: "0-2-4" })
+diff --git a/billing/invoice-rules.ts b/billing/invoice-rules.ts
+index add6700..addea00 100644
+--- a/billing/invoice-rules.ts
++++ b/billing/invoice-rules.ts
+@@ -4,20 +4,23 @@ function configure1Hunk0()
+ const step0_0 = "invoice batch hydrates shared-cache path 1.0"
+ const step0_1 = "invoice batch reconciles terminal-safe path 1.1"
+ const step0_2 = "invoice batch debounces audit-ready path 1.2"
+ const step0_3 = "invoice batch annotates high-volume path 1.3"
+ const step0_4 = "invoice batch indexes quiet-default path 1.4"
+ const step0_5 = "invoice batch compresses cold-start path 1.5"
+ const step0_6 = "invoice batch validates warm-path path 1.6"
+ const step0_7 = "invoice batch streams operator-mode path 1.7"
+-const billing_invoice_rules_ts_0_mode = "legacy-invoice batch"
++const billing_invoice_rules_ts_0_mode = "current-invoice batch"
+-const billing_invoice_rules_ts_0_limit = 25
++const billing_invoice_rules_ts_0_limit = 50
++const billing_invoice_rules_ts_0_owner = "warm-path"
+-queue("invoice batch", "hydrates", { priority: 0, tag: "legacy" })
++queue("invoice batch", "hydrates", { priority: 1, tag: "warm-path", trace: "1-0-0" })
+-queue("invoice batch", "reconciles", { priority: 1, tag: "legacy" })
++queue("invoice batch", "reconciles", { priority: 2, tag: "operator-mode", trace: "1-0-1" })
+-queue("invoice batch", "debounces", { priority: 2, tag: "legacy" })
++queue("invoice batch", "debounces", { priority: 3, tag: "shared-cache", trace: "1-0-2" })
+-queue("invoice batch", "annotates", { priority: 3, tag: "legacy" })
++queue("invoice batch", "annotates", { priority: 4, tag: "terminal-safe", trace: "1-0-3" })
+-queue("invoice batch", "indexes", { priority: 4, tag: "legacy" })
++queue("invoice batch", "indexes", { priority: 5, tag: "audit-ready", trace: "1-0-4" })
+@@ -60,20 +64,23 @@ function configure1Hunk1()
+ const step1_0 = "invoice batch reconciles shared-cache path 1.0"
+ const step1_1 = "invoice batch debounces terminal-safe path 1.1"
+ const step1_2 = "invoice batch annotates audit-ready path 1.2"
+ const step1_3 = "invoice batch indexes high-volume path 1.3"
+ const step1_4 = "invoice batch compresses quiet-default path 1.4"
+ const step1_5 = "invoice batch validates cold-start path 1.5"
+ const step1_6 = "invoice batch streams warm-path path 1.6"
+ const step1_7 = "invoice batch summarizes operator-mode path 1.7"
+-const billing_invoice_rules_ts_1_mode = "legacy-invoice batch"
++const billing_invoice_rules_ts_1_mode = "current-invoice batch"
+-const billing_invoice_rules_ts_1_limit = 26
++const billing_invoice_rules_ts_1_limit = 51
++const billing_invoice_rules_ts_1_owner = "operator-mode"
+-queue("invoice batch", "reconciles", { priority: 0, tag: "legacy" })
++queue("invoice batch", "reconciles", { priority: 1, tag: "warm-path", trace: "1-1-0" })
+-queue("invoice batch", "debounces", { priority: 1, tag: "legacy" })
++queue("invoice batch", "debounces", { priority: 2, tag: "operator-mode", trace: "1-1-1" })
+-queue("invoice batch", "annotates", { priority: 2, tag: "legacy" })
++queue("invoice batch", "annotates", { priority: 3, tag: "shared-cache", trace: "1-1-2" })
+-queue("invoice batch", "indexes", { priority: 3, tag: "legacy" })
++queue("invoice batch", "indexes", { priority: 4, tag: "terminal-safe", trace: "1-1-3" })
+-queue("invoice batch", "compresses", { priority: 4, tag: "legacy" })
++queue("invoice batch", "compresses", { priority: 5, tag: "audit-ready", trace: "1-1-4" })
+@@ -116,20 +124,23 @@ function configure1Hunk2()
+ const step2_0 = "invoice batch debounces shared-cache path 1.0"
+ const step2_1 = "invoice batch annotates terminal-safe path 1.1"
+ const step2_2 = "invoice batch indexes audit-ready path 1.2"
+ const step2_3 = "invoice batch compresses high-volume path 1.3"
+ const step2_4 = "invoice batch validates quiet-default path 1.4"
+ const step2_5 = "invoice batch streams cold-start path 1.5"
+ const step2_6 = "invoice batch summarizes warm-path path 1.6"
+ const step2_7 = "invoice batch partitions operator-mode path 1.7"
+-const billing_invoice_rules_ts_2_mode = "legacy-invoice batch"
++const billing_invoice_rules_ts_2_mode = "current-invoice batch"
+-const billing_invoice_rules_ts_2_limit = 27
++const billing_invoice_rules_ts_2_limit = 52
++const billing_invoice_rules_ts_2_owner = "shared-cache"
+-queue("invoice batch", "debounces", { priority: 0, tag: "legacy" })
++queue("invoice batch", "debounces", { priority: 1, tag: "warm-path", trace: "1-2-0" })
+-queue("invoice batch", "annotates", { priority: 1, tag: "legacy" })
++queue("invoice batch", "annotates", { priority: 2, tag: "operator-mode", trace: "1-2-1" })
+-queue("invoice batch", "indexes", { priority: 2, tag: "legacy" })
++queue("invoice batch", "indexes", { priority: 3, tag: "shared-cache", trace: "1-2-2" })
+-queue("invoice batch", "compresses", { priority: 3, tag: "legacy" })
++queue("invoice batch", "compresses", { priority: 4, tag: "terminal-safe", trace: "1-2-3" })
+-queue("invoice batch", "validates", { priority: 4, tag: "legacy" })
++queue("invoice batch", "validates", { priority: 5, tag: "audit-ready", trace: "1-2-4" })
+diff --git a/search/query-planner.ts b/search/query-planner.ts
+index aed6a00..aeded00 100644
+--- a/search/query-planner.ts
++++ b/search/query-planner.ts
+@@ -4,20 +4,23 @@ function configure2Hunk0()
+ const step0_0 = "query graph reconciles high-volume path 2.0"
+ const step0_1 = "query graph debounces quiet-default path 2.1"
+ const step0_2 = "query graph annotates cold-start path 2.2"
+ const step0_3 = "query graph indexes warm-path path 2.3"
+ const step0_4 = "query graph compresses operator-mode path 2.4"
+ const step0_5 = "query graph validates shared-cache path 2.5"
+ const step0_6 = "query graph streams terminal-safe path 2.6"
+ const step0_7 = "query graph summarizes audit-ready path 2.7"
+-const search_query_planner_ts_0_mode = "legacy-query graph"
++const search_query_planner_ts_0_mode = "current-query graph"
+-const search_query_planner_ts_0_limit = 26
++const search_query_planner_ts_0_limit = 52
++const search_query_planner_ts_0_owner = "operator-mode"
+-queue("query graph", "reconciles", { priority: 0, tag: "legacy" })
++queue("query graph", "reconciles", { priority: 1, tag: "operator-mode", trace: "2-0-0" })
+-queue("query graph", "debounces", { priority: 1, tag: "legacy" })
++queue("query graph", "debounces", { priority: 2, tag: "shared-cache", trace: "2-0-1" })
+-queue("query graph", "annotates", { priority: 2, tag: "legacy" })
++queue("query graph", "annotates", { priority: 3, tag: "terminal-safe", trace: "2-0-2" })
+-queue("query graph", "indexes", { priority: 3, tag: "legacy" })
++queue("query graph", "indexes", { priority: 4, tag: "audit-ready", trace: "2-0-3" })
+-queue("query graph", "compresses", { priority: 4, tag: "legacy" })
++queue("query graph", "compresses", { priority: 5, tag: "high-volume", trace: "2-0-4" })
+@@ -60,20 +64,23 @@ function configure2Hunk1()
+ const step1_0 = "query graph debounces high-volume path 2.0"
+ const step1_1 = "query graph annotates quiet-default path 2.1"
+ const step1_2 = "query graph indexes cold-start path 2.2"
+ const step1_3 = "query graph compresses warm-path path 2.3"
+ const step1_4 = "query graph validates operator-mode path 2.4"
+ const step1_5 = "query graph streams shared-cache path 2.5"
+ const step1_6 = "query graph summarizes terminal-safe path 2.6"
+ const step1_7 = "query graph partitions audit-ready path 2.7"
+-const search_query_planner_ts_1_mode = "legacy-query graph"
++const search_query_planner_ts_1_mode = "current-query graph"
+-const search_query_planner_ts_1_limit = 27
++const search_query_planner_ts_1_limit = 53
++const search_query_planner_ts_1_owner = "shared-cache"
+-queue("query graph", "debounces", { priority: 0, tag: "legacy" })
++queue("query graph", "debounces", { priority: 1, tag: "operator-mode", trace: "2-1-0" })
+-queue("query graph", "annotates", { priority: 1, tag: "legacy" })
++queue("query graph", "annotates", { priority: 2, tag: "shared-cache", trace: "2-1-1" })
+-queue("query graph", "indexes", { priority: 2, tag: "legacy" })
++queue("query graph", "indexes", { priority: 3, tag: "terminal-safe", trace: "2-1-2" })
+-queue("query graph", "compresses", { priority: 3, tag: "legacy" })
++queue("query graph", "compresses", { priority: 4, tag: "audit-ready", trace: "2-1-3" })
+-queue("query graph", "validates", { priority: 4, tag: "legacy" })
++queue("query graph", "validates", { priority: 5, tag: "high-volume", trace: "2-1-4" })
+@@ -116,20 +124,23 @@ function configure2Hunk2()
+ const step2_0 = "query graph annotates high-volume path 2.0"
+ const step2_1 = "query graph indexes quiet-default path 2.1"
+ const step2_2 = "query graph compresses cold-start path 2.2"
+ const step2_3 = "query graph validates warm-path path 2.3"
+ const step2_4 = "query graph streams operator-mode path 2.4"
+ const step2_5 = "query graph summarizes shared-cache path 2.5"
+ const step2_6 = "query graph partitions terminal-safe path 2.6"
+ const step2_7 = "query graph projects audit-ready path 2.7"
+-const search_query_planner_ts_2_mode = "legacy-query graph"
++const search_query_planner_ts_2_mode = "current-query graph"
+-const search_query_planner_ts_2_limit = 28
++const search_query_planner_ts_2_limit = 54
++const search_query_planner_ts_2_owner = "terminal-safe"
+-queue("query graph", "annotates", { priority: 0, tag: "legacy" })
++queue("query graph", "annotates", { priority: 1, tag: "operator-mode", trace: "2-2-0" })
+-queue("query graph", "indexes", { priority: 1, tag: "legacy" })
++queue("query graph", "indexes", { priority: 2, tag: "shared-cache", trace: "2-2-1" })
+-queue("query graph", "compresses", { priority: 2, tag: "legacy" })
++queue("query graph", "compresses", { priority: 3, tag: "terminal-safe", trace: "2-2-2" })
+-queue("query graph", "validates", { priority: 3, tag: "legacy" })
++queue("query graph", "validates", { priority: 4, tag: "audit-ready", trace: "2-2-3" })
+-queue("query graph", "streams", { priority: 4, tag: "legacy" })
++queue("query graph", "streams", { priority: 5, tag: "high-volume", trace: "2-2-4" })
+diff --git a/sync/retry-policy.ts b/sync/retry-policy.ts
+index afd6d00..afdf000 100644
+--- a/sync/retry-policy.ts
++++ b/sync/retry-policy.ts
+@@ -4,20 +4,23 @@ function configure3Hunk0()
+ const step0_0 = "retry lane debounces warm-path path 3.0"
+ const step0_1 = "retry lane annotates operator-mode path 3.1"
+ const step0_2 = "retry lane indexes shared-cache path 3.2"
+ const step0_3 = "retry lane compresses terminal-safe path 3.3"
+ const step0_4 = "retry lane validates audit-ready path 3.4"
+ const step0_5 = "retry lane streams high-volume path 3.5"
+ const step0_6 = "retry lane summarizes quiet-default path 3.6"
+ const step0_7 = "retry lane partitions cold-start path 3.7"
+-const sync_retry_policy_ts_0_mode = "legacy-retry lane"
++const sync_retry_policy_ts_0_mode = "current-retry lane"
+-const sync_retry_policy_ts_0_limit = 27
++const sync_retry_policy_ts_0_limit = 54
++const sync_retry_policy_ts_0_owner = "shared-cache"
+-queue("retry lane", "debounces", { priority: 0, tag: "legacy" })
++queue("retry lane", "debounces", { priority: 1, tag: "shared-cache", trace: "3-0-0" })
+-queue("retry lane", "annotates", { priority: 1, tag: "legacy" })
++queue("retry lane", "annotates", { priority: 2, tag: "terminal-safe", trace: "3-0-1" })
+-queue("retry lane", "indexes", { priority: 2, tag: "legacy" })
++queue("retry lane", "indexes", { priority: 3, tag: "audit-ready", trace: "3-0-2" })
+-queue("retry lane", "compresses", { priority: 3, tag: "legacy" })
++queue("retry lane", "compresses", { priority: 4, tag: "high-volume", trace: "3-0-3" })
+-queue("retry lane", "validates", { priority: 4, tag: "legacy" })
++queue("retry lane", "validates", { priority: 5, tag: "quiet-default", trace: "3-0-4" })
+@@ -60,20 +64,23 @@ function configure3Hunk1()
+ const step1_0 = "retry lane annotates warm-path path 3.0"
+ const step1_1 = "retry lane indexes operator-mode path 3.1"
+ const step1_2 = "retry lane compresses shared-cache path 3.2"
+ const step1_3 = "retry lane validates terminal-safe path 3.3"
+ const step1_4 = "retry lane streams audit-ready path 3.4"
+ const step1_5 = "retry lane summarizes high-volume path 3.5"
+ const step1_6 = "retry lane partitions quiet-default path 3.6"
+ const step1_7 = "retry lane projects cold-start path 3.7"
+-const sync_retry_policy_ts_1_mode = "legacy-retry lane"
++const sync_retry_policy_ts_1_mode = "current-retry lane"
+-const sync_retry_policy_ts_1_limit = 28
++const sync_retry_policy_ts_1_limit = 55
++const sync_retry_policy_ts_1_owner = "terminal-safe"
+-queue("retry lane", "annotates", { priority: 0, tag: "legacy" })
++queue("retry lane", "annotates", { priority: 1, tag: "shared-cache", trace: "3-1-0" })
+-queue("retry lane", "indexes", { priority: 1, tag: "legacy" })
++queue("retry lane", "indexes", { priority: 2, tag: "terminal-safe", trace: "3-1-1" })
+-queue("retry lane", "compresses", { priority: 2, tag: "legacy" })
++queue("retry lane", "compresses", { priority: 3, tag: "audit-ready", trace: "3-1-2" })
+-queue("retry lane", "validates", { priority: 3, tag: "legacy" })
++queue("retry lane", "validates", { priority: 4, tag: "high-volume", trace: "3-1-3" })
+-queue("retry lane", "streams", { priority: 4, tag: "legacy" })
++queue("retry lane", "streams", { priority: 5, tag: "quiet-default", trace: "3-1-4" })
+@@ -116,20 +124,23 @@ function configure3Hunk2()
+ const step2_0 = "retry lane indexes warm-path path 3.0"
+ const step2_1 = "retry lane compresses operator-mode path 3.1"
+ const step2_2 = "retry lane validates shared-cache path 3.2"
+ const step2_3 = "retry lane streams terminal-safe path 3.3"
+ const step2_4 = "retry lane summarizes audit-ready path 3.4"
+ const step2_5 = "retry lane partitions high-volume path 3.5"
+ const step2_6 = "retry lane projects quiet-default path 3.6"
+ const step2_7 = "retry lane normalizes cold-start path 3.7"
+-const sync_retry_policy_ts_2_mode = "legacy-retry lane"
++const sync_retry_policy_ts_2_mode = "current-retry lane"
+-const sync_retry_policy_ts_2_limit = 29
++const sync_retry_policy_ts_2_limit = 56
++const sync_retry_policy_ts_2_owner = "audit-ready"
+-queue("retry lane", "indexes", { priority: 0, tag: "legacy" })
++queue("retry lane", "indexes", { priority: 1, tag: "shared-cache", trace: "3-2-0" })
+-queue("retry lane", "compresses", { priority: 1, tag: "legacy" })
++queue("retry lane", "compresses", { priority: 2, tag: "terminal-safe", trace: "3-2-1" })
+-queue("retry lane", "validates", { priority: 2, tag: "legacy" })
++queue("retry lane", "validates", { priority: 3, tag: "audit-ready", trace: "3-2-2" })
+-queue("retry lane", "streams", { priority: 3, tag: "legacy" })
++queue("retry lane", "streams", { priority: 4, tag: "high-volume", trace: "3-2-3" })
+-queue("retry lane", "summarizes", { priority: 4, tag: "legacy" })
++queue("retry lane", "summarizes", { priority: 5, tag: "quiet-default", trace: "3-2-4" })
+diff --git a/ui/diff-panel.tsx b/ui/diff-panel.tsx
+index b0d7000..b0df300 100644
+--- a/ui/diff-panel.tsx
++++ b/ui/diff-panel.tsx
+@@ -4,20 +4,23 @@ function configure4Hunk0()
+ const step0_0 = "diff viewport annotates terminal-safe path 4.0"
+ const step0_1 = "diff viewport indexes audit-ready path 4.1"
+ const step0_2 = "diff viewport compresses high-volume path 4.2"
+ const step0_3 = "diff viewport validates quiet-default path 4.3"
+ const step0_4 = "diff viewport streams cold-start path 4.4"
+ const step0_5 = "diff viewport summarizes warm-path path 4.5"
+ const step0_6 = "diff viewport partitions operator-mode path 4.6"
+ const step0_7 = "diff viewport projects shared-cache path 4.7"
+-const ui_diff_panel_tsx_0_mode = "legacy-diff viewport"
++const ui_diff_panel_tsx_0_mode = "current-diff viewport"
+-const ui_diff_panel_tsx_0_limit = 28
++const ui_diff_panel_tsx_0_limit = 56
++const ui_diff_panel_tsx_0_owner = "terminal-safe"
+-queue("diff viewport", "annotates", { priority: 0, tag: "legacy" })
++queue("diff viewport", "annotates", { priority: 1, tag: "terminal-safe", trace: "4-0-0" })
+-queue("diff viewport", "indexes", { priority: 1, tag: "legacy" })
++queue("diff viewport", "indexes", { priority: 2, tag: "audit-ready", trace: "4-0-1" })
+-queue("diff viewport", "compresses", { priority: 2, tag: "legacy" })
++queue("diff viewport", "compresses", { priority: 3, tag: "high-volume", trace: "4-0-2" })
+-queue("diff viewport", "validates", { priority: 3, tag: "legacy" })
++queue("diff viewport", "validates", { priority: 4, tag: "quiet-default", trace: "4-0-3" })
+-queue("diff viewport", "streams", { priority: 4, tag: "legacy" })
++queue("diff viewport", "streams", { priority: 5, tag: "cold-start", trace: "4-0-4" })
+@@ -60,20 +64,23 @@ function configure4Hunk1()
+ const step1_0 = "diff viewport indexes terminal-safe path 4.0"
+ const step1_1 = "diff viewport compresses audit-ready path 4.1"
+ const step1_2 = "diff viewport validates high-volume path 4.2"
+ const step1_3 = "diff viewport streams quiet-default path 4.3"
+ const step1_4 = "diff viewport summarizes cold-start path 4.4"
+ const step1_5 = "diff viewport partitions warm-path path 4.5"
+ const step1_6 = "diff viewport projects operator-mode path 4.6"
+ const step1_7 = "diff viewport normalizes shared-cache path 4.7"
+-const ui_diff_panel_tsx_1_mode = "legacy-diff viewport"
++const ui_diff_panel_tsx_1_mode = "current-diff viewport"
+-const ui_diff_panel_tsx_1_limit = 29
++const ui_diff_panel_tsx_1_limit = 57
++const ui_diff_panel_tsx_1_owner = "audit-ready"
+-queue("diff viewport", "indexes", { priority: 0, tag: "legacy" })
++queue("diff viewport", "indexes", { priority: 1, tag: "terminal-safe", trace: "4-1-0" })
+-queue("diff viewport", "compresses", { priority: 1, tag: "legacy" })
++queue("diff viewport", "compresses", { priority: 2, tag: "audit-ready", trace: "4-1-1" })
+-queue("diff viewport", "validates", { priority: 2, tag: "legacy" })
++queue("diff viewport", "validates", { priority: 3, tag: "high-volume", trace: "4-1-2" })
+-queue("diff viewport", "streams", { priority: 3, tag: "legacy" })
++queue("diff viewport", "streams", { priority: 4, tag: "quiet-default", trace: "4-1-3" })
+-queue("diff viewport", "summarizes", { priority: 4, tag: "legacy" })
++queue("diff viewport", "summarizes", { priority: 5, tag: "cold-start", trace: "4-1-4" })
+@@ -116,20 +124,23 @@ function configure4Hunk2()
+ const step2_0 = "diff viewport compresses terminal-safe path 4.0"
+ const step2_1 = "diff viewport validates audit-ready path 4.1"
+ const step2_2 = "diff viewport streams high-volume path 4.2"
+ const step2_3 = "diff viewport summarizes quiet-default path 4.3"
+ const step2_4 = "diff viewport partitions cold-start path 4.4"
+ const step2_5 = "diff viewport projects warm-path path 4.5"
+ const step2_6 = "diff viewport normalizes operator-mode path 4.6"
+ const step2_7 = "diff viewport hydrates shared-cache path 4.7"
+-const ui_diff_panel_tsx_2_mode = "legacy-diff viewport"
++const ui_diff_panel_tsx_2_mode = "current-diff viewport"
+-const ui_diff_panel_tsx_2_limit = 30
++const ui_diff_panel_tsx_2_limit = 58
++const ui_diff_panel_tsx_2_owner = "high-volume"
+-queue("diff viewport", "compresses", { priority: 0, tag: "legacy" })
++queue("diff viewport", "compresses", { priority: 1, tag: "terminal-safe", trace: "4-2-0" })
+-queue("diff viewport", "validates", { priority: 1, tag: "legacy" })
++queue("diff viewport", "validates", { priority: 2, tag: "audit-ready", trace: "4-2-1" })
+-queue("diff viewport", "streams", { priority: 2, tag: "legacy" })
++queue("diff viewport", "streams", { priority: 3, tag: "high-volume", trace: "4-2-2" })
+-queue("diff viewport", "summarizes", { priority: 3, tag: "legacy" })
++queue("diff viewport", "summarizes", { priority: 4, tag: "quiet-default", trace: "4-2-3" })
+-queue("diff viewport", "partitions", { priority: 4, tag: "legacy" })
++queue("diff viewport", "partitions", { priority: 5, tag: "cold-start", trace: "4-2-4" })
+diff --git a/ui/keyboard-shortcuts.ts b/ui/keyboard-shortcuts.ts
+index b1d7300..b1df600 100644
+--- a/ui/keyboard-shortcuts.ts
++++ b/ui/keyboard-shortcuts.ts
+@@ -4,20 +4,23 @@ function configure5Hunk0()
+ const step0_0 = "shortcut map indexes quiet-default path 5.0"
+ const step0_1 = "shortcut map compresses cold-start path 5.1"
+ const step0_2 = "shortcut map validates warm-path path 5.2"
+ const step0_3 = "shortcut map streams operator-mode path 5.3"
+ const step0_4 = "shortcut map summarizes shared-cache path 5.4"
+ const step0_5 = "shortcut map partitions terminal-safe path 5.5"
+ const step0_6 = "shortcut map projects audit-ready path 5.6"
+ const step0_7 = "shortcut map normalizes high-volume path 5.7"
+-const ui_keyboard_shortcuts_ts_0_mode = "legacy-shortcut map"
++const ui_keyboard_shortcuts_ts_0_mode = "current-shortcut map"
+-const ui_keyboard_shortcuts_ts_0_limit = 29
++const ui_keyboard_shortcuts_ts_0_limit = 58
++const ui_keyboard_shortcuts_ts_0_owner = "audit-ready"
+-queue("shortcut map", "indexes", { priority: 0, tag: "legacy" })
++queue("shortcut map", "indexes", { priority: 1, tag: "audit-ready", trace: "5-0-0" })
+-queue("shortcut map", "compresses", { priority: 1, tag: "legacy" })
++queue("shortcut map", "compresses", { priority: 2, tag: "high-volume", trace: "5-0-1" })
+-queue("shortcut map", "validates", { priority: 2, tag: "legacy" })
++queue("shortcut map", "validates", { priority: 3, tag: "quiet-default", trace: "5-0-2" })
+-queue("shortcut map", "streams", { priority: 3, tag: "legacy" })
++queue("shortcut map", "streams", { priority: 4, tag: "cold-start", trace: "5-0-3" })
+-queue("shortcut map", "summarizes", { priority: 4, tag: "legacy" })
++queue("shortcut map", "summarizes", { priority: 5, tag: "warm-path", trace: "5-0-4" })
+@@ -60,20 +64,23 @@ function configure5Hunk1()
+ const step1_0 = "shortcut map compresses quiet-default path 5.0"
+ const step1_1 = "shortcut map validates cold-start path 5.1"
+ const step1_2 = "shortcut map streams warm-path path 5.2"
+ const step1_3 = "shortcut map summarizes operator-mode path 5.3"
+ const step1_4 = "shortcut map partitions shared-cache path 5.4"
+ const step1_5 = "shortcut map projects terminal-safe path 5.5"
+ const step1_6 = "shortcut map normalizes audit-ready path 5.6"
+ const step1_7 = "shortcut map hydrates high-volume path 5.7"
+-const ui_keyboard_shortcuts_ts_1_mode = "legacy-shortcut map"
++const ui_keyboard_shortcuts_ts_1_mode = "current-shortcut map"
+-const ui_keyboard_shortcuts_ts_1_limit = 30
++const ui_keyboard_shortcuts_ts_1_limit = 59
++const ui_keyboard_shortcuts_ts_1_owner = "high-volume"
+-queue("shortcut map", "compresses", { priority: 0, tag: "legacy" })
++queue("shortcut map", "compresses", { priority: 1, tag: "audit-ready", trace: "5-1-0" })
+-queue("shortcut map", "validates", { priority: 1, tag: "legacy" })
++queue("shortcut map", "validates", { priority: 2, tag: "high-volume", trace: "5-1-1" })
+-queue("shortcut map", "streams", { priority: 2, tag: "legacy" })
++queue("shortcut map", "streams", { priority: 3, tag: "quiet-default", trace: "5-1-2" })
+-queue("shortcut map", "summarizes", { priority: 3, tag: "legacy" })
++queue("shortcut map", "summarizes", { priority: 4, tag: "cold-start", trace: "5-1-3" })
+-queue("shortcut map", "partitions", { priority: 4, tag: "legacy" })
++queue("shortcut map", "partitions", { priority: 5, tag: "warm-path", trace: "5-1-4" })
+@@ -116,20 +124,23 @@ function configure5Hunk2()
+ const step2_0 = "shortcut map validates quiet-default path 5.0"
+ const step2_1 = "shortcut map streams cold-start path 5.1"
+ const step2_2 = "shortcut map summarizes warm-path path 5.2"
+ const step2_3 = "shortcut map partitions operator-mode path 5.3"
+ const step2_4 = "shortcut map projects shared-cache path 5.4"
+ const step2_5 = "shortcut map normalizes terminal-safe path 5.5"
+ const step2_6 = "shortcut map hydrates audit-ready path 5.6"
+ const step2_7 = "shortcut map reconciles high-volume path 5.7"
+-const ui_keyboard_shortcuts_ts_2_mode = "legacy-shortcut map"
++const ui_keyboard_shortcuts_ts_2_mode = "current-shortcut map"
+-const ui_keyboard_shortcuts_ts_2_limit = 31
++const ui_keyboard_shortcuts_ts_2_limit = 60
++const ui_keyboard_shortcuts_ts_2_owner = "quiet-default"
+-queue("shortcut map", "validates", { priority: 0, tag: "legacy" })
++queue("shortcut map", "validates", { priority: 1, tag: "audit-ready", trace: "5-2-0" })
+-queue("shortcut map", "streams", { priority: 1, tag: "legacy" })
++queue("shortcut map", "streams", { priority: 2, tag: "high-volume", trace: "5-2-1" })
+-queue("shortcut map", "summarizes", { priority: 2, tag: "legacy" })
++queue("shortcut map", "summarizes", { priority: 3, tag: "quiet-default", trace: "5-2-2" })
+-queue("shortcut map", "partitions", { priority: 3, tag: "legacy" })
++queue("shortcut map", "partitions", { priority: 4, tag: "cold-start", trace: "5-2-3" })
+-queue("shortcut map", "projects", { priority: 4, tag: "legacy" })
++queue("shortcut map", "projects", { priority: 5, tag: "warm-path", trace: "5-2-4" })
+diff --git a/data/customer-rollup.sql b/data/customer-rollup.sql
+index b2d7600..b2df900 100644
+--- a/data/customer-rollup.sql
++++ b/data/customer-rollup.sql
+@@ -4,20 +4,23 @@ function configure6Hunk0()
+ const step0_0 = "customer ledger compresses operator-mode path 6.0"
+ const step0_1 = "customer ledger validates shared-cache path 6.1"
+ const step0_2 = "customer ledger streams terminal-safe path 6.2"
+ const step0_3 = "customer ledger summarizes audit-ready path 6.3"
+ const step0_4 = "customer ledger partitions high-volume path 6.4"
+ const step0_5 = "customer ledger projects quiet-default path 6.5"
+ const step0_6 = "customer ledger normalizes cold-start path 6.6"
+ const step0_7 = "customer ledger hydrates warm-path path 6.7"
+-const data_customer_rollup_sql_0_mode = "legacy-customer ledger"
++const data_customer_rollup_sql_0_mode = "current-customer ledger"
+-const data_customer_rollup_sql_0_limit = 30
++const data_customer_rollup_sql_0_limit = 60
++const data_customer_rollup_sql_0_owner = "high-volume"
+-queue("customer ledger", "compresses", { priority: 0, tag: "legacy" })
++queue("customer ledger", "compresses", { priority: 1, tag: "high-volume", trace: "6-0-0" })
+-queue("customer ledger", "validates", { priority: 1, tag: "legacy" })
++queue("customer ledger", "validates", { priority: 2, tag: "quiet-default", trace: "6-0-1" })
+-queue("customer ledger", "streams", { priority: 2, tag: "legacy" })
++queue("customer ledger", "streams", { priority: 3, tag: "cold-start", trace: "6-0-2" })
+-queue("customer ledger", "summarizes", { priority: 3, tag: "legacy" })
++queue("customer ledger", "summarizes", { priority: 4, tag: "warm-path", trace: "6-0-3" })
+-queue("customer ledger", "partitions", { priority: 4, tag: "legacy" })
++queue("customer ledger", "partitions", { priority: 5, tag: "operator-mode", trace: "6-0-4" })
+@@ -60,20 +64,23 @@ function configure6Hunk1()
+ const step1_0 = "customer ledger validates operator-mode path 6.0"
+ const step1_1 = "customer ledger streams shared-cache path 6.1"
+ const step1_2 = "customer ledger summarizes terminal-safe path 6.2"
+ const step1_3 = "customer ledger partitions audit-ready path 6.3"
+ const step1_4 = "customer ledger projects high-volume path 6.4"
+ const step1_5 = "customer ledger normalizes quiet-default path 6.5"
+ const step1_6 = "customer ledger hydrates cold-start path 6.6"
+ const step1_7 = "customer ledger reconciles warm-path path 6.7"
+-const data_customer_rollup_sql_1_mode = "legacy-customer ledger"
++const data_customer_rollup_sql_1_mode = "current-customer ledger"
+-const data_customer_rollup_sql_1_limit = 31
++const data_customer_rollup_sql_1_limit = 61
++const data_customer_rollup_sql_1_owner = "quiet-default"
+-queue("customer ledger", "validates", { priority: 0, tag: "legacy" })
++queue("customer ledger", "validates", { priority: 1, tag: "high-volume", trace: "6-1-0" })
+-queue("customer ledger", "streams", { priority: 1, tag: "legacy" })
++queue("customer ledger", "streams", { priority: 2, tag: "quiet-default", trace: "6-1-1" })
+-queue("customer ledger", "summarizes", { priority: 2, tag: "legacy" })
++queue("customer ledger", "summarizes", { priority: 3, tag: "cold-start", trace: "6-1-2" })
+-queue("customer ledger", "partitions", { priority: 3, tag: "legacy" })
++queue("customer ledger", "partitions", { priority: 4, tag: "warm-path", trace: "6-1-3" })
+-queue("customer ledger", "projects", { priority: 4, tag: "legacy" })
++queue("customer ledger", "projects", { priority: 5, tag: "operator-mode", trace: "6-1-4" })
+@@ -116,20 +124,23 @@ function configure6Hunk2()
+ const step2_0 = "customer ledger streams operator-mode path 6.0"
+ const step2_1 = "customer ledger summarizes shared-cache path 6.1"
+ const step2_2 = "customer ledger partitions terminal-safe path 6.2"
+ const step2_3 = "customer ledger projects audit-ready path 6.3"
+ const step2_4 = "customer ledger normalizes high-volume path 6.4"
+ const step2_5 = "customer ledger hydrates quiet-default path 6.5"
+ const step2_6 = "customer ledger reconciles cold-start path 6.6"
+ const step2_7 = "customer ledger debounces warm-path path 6.7"
+-const data_customer_rollup_sql_2_mode = "legacy-customer ledger"
++const data_customer_rollup_sql_2_mode = "current-customer ledger"
+-const data_customer_rollup_sql_2_limit = 32
++const data_customer_rollup_sql_2_limit = 62
++const data_customer_rollup_sql_2_owner = "cold-start"
+-queue("customer ledger", "streams", { priority: 0, tag: "legacy" })
++queue("customer ledger", "streams", { priority: 1, tag: "high-volume", trace: "6-2-0" })
+-queue("customer ledger", "summarizes", { priority: 1, tag: "legacy" })
++queue("customer ledger", "summarizes", { priority: 2, tag: "quiet-default", trace: "6-2-1" })
+-queue("customer ledger", "partitions", { priority: 2, tag: "legacy" })
++queue("customer ledger", "partitions", { priority: 3, tag: "cold-start", trace: "6-2-2" })
+-queue("customer ledger", "projects", { priority: 3, tag: "legacy" })
++queue("customer ledger", "projects", { priority: 4, tag: "warm-path", trace: "6-2-3" })
+-queue("customer ledger", "normalizes", { priority: 4, tag: "legacy" })
++queue("customer ledger", "normalizes", { priority: 5, tag: "operator-mode", trace: "6-2-4" })
+diff --git a/data/migrations/20260426_add_audit_events.sql b/data/migrations/20260426_add_audit_events.sql
+index b3d7900..b3dfc00 100644
+--- a/data/migrations/20260426_add_audit_events.sql
++++ b/data/migrations/20260426_add_audit_events.sql
+@@ -4,20 +4,23 @@ function configure7Hunk0()
+ const step0_0 = "audit stream validates audit-ready path 7.0"
+ const step0_1 = "audit stream streams high-volume path 7.1"
+ const step0_2 = "audit stream summarizes quiet-default path 7.2"
+ const step0_3 = "audit stream partitions cold-start path 7.3"
+ const step0_4 = "audit stream projects warm-path path 7.4"
+ const step0_5 = "audit stream normalizes operator-mode path 7.5"
+ const step0_6 = "audit stream hydrates shared-cache path 7.6"
+ const step0_7 = "audit stream reconciles terminal-safe path 7.7"
+-const data_migrations_20260426_add_audit_events_sql_0_mode = "legacy-audit stream"
++const data_migrations_20260426_add_audit_events_sql_0_mode = "current-audit stream"
+-const data_migrations_20260426_add_audit_events_sql_0_limit = 31
++const data_migrations_20260426_add_audit_events_sql_0_limit = 62
++const data_migrations_20260426_add_audit_events_sql_0_owner = "quiet-default"
+-queue("audit stream", "validates", { priority: 0, tag: "legacy" })
++queue("audit stream", "validates", { priority: 1, tag: "quiet-default", trace: "7-0-0" })
+-queue("audit stream", "streams", { priority: 1, tag: "legacy" })
++queue("audit stream", "streams", { priority: 2, tag: "cold-start", trace: "7-0-1" })
+-queue("audit stream", "summarizes", { priority: 2, tag: "legacy" })
++queue("audit stream", "summarizes", { priority: 3, tag: "warm-path", trace: "7-0-2" })
+-queue("audit stream", "partitions", { priority: 3, tag: "legacy" })
++queue("audit stream", "partitions", { priority: 4, tag: "operator-mode", trace: "7-0-3" })
+-queue("audit stream", "projects", { priority: 4, tag: "legacy" })
++queue("audit stream", "projects", { priority: 5, tag: "shared-cache", trace: "7-0-4" })
+@@ -60,20 +64,23 @@ function configure7Hunk1()
+ const step1_0 = "audit stream streams audit-ready path 7.0"
+ const step1_1 = "audit stream summarizes high-volume path 7.1"
+ const step1_2 = "audit stream partitions quiet-default path 7.2"
+ const step1_3 = "audit stream projects cold-start path 7.3"
+ const step1_4 = "audit stream normalizes warm-path path 7.4"
+ const step1_5 = "audit stream hydrates operator-mode path 7.5"
+ const step1_6 = "audit stream reconciles shared-cache path 7.6"
+ const step1_7 = "audit stream debounces terminal-safe path 7.7"
+-const data_migrations_20260426_add_audit_events_sql_1_mode = "legacy-audit stream"
++const data_migrations_20260426_add_audit_events_sql_1_mode = "current-audit stream"
+-const data_migrations_20260426_add_audit_events_sql_1_limit = 32
++const data_migrations_20260426_add_audit_events_sql_1_limit = 63
++const data_migrations_20260426_add_audit_events_sql_1_owner = "cold-start"
+-queue("audit stream", "streams", { priority: 0, tag: "legacy" })
++queue("audit stream", "streams", { priority: 1, tag: "quiet-default", trace: "7-1-0" })
+-queue("audit stream", "summarizes", { priority: 1, tag: "legacy" })
++queue("audit stream", "summarizes", { priority: 2, tag: "cold-start", trace: "7-1-1" })
+-queue("audit stream", "partitions", { priority: 2, tag: "legacy" })
++queue("audit stream", "partitions", { priority: 3, tag: "warm-path", trace: "7-1-2" })
+-queue("audit stream", "projects", { priority: 3, tag: "legacy" })
++queue("audit stream", "projects", { priority: 4, tag: "operator-mode", trace: "7-1-3" })
+-queue("audit stream", "normalizes", { priority: 4, tag: "legacy" })
++queue("audit stream", "normalizes", { priority: 5, tag: "shared-cache", trace: "7-1-4" })
+@@ -116,20 +124,23 @@ function configure7Hunk2()
+ const step2_0 = "audit stream summarizes audit-ready path 7.0"
+ const step2_1 = "audit stream partitions high-volume path 7.1"
+ const step2_2 = "audit stream projects quiet-default path 7.2"
+ const step2_3 = "audit stream normalizes cold-start path 7.3"
+ const step2_4 = "audit stream hydrates warm-path path 7.4"
+ const step2_5 = "audit stream reconciles operator-mode path 7.5"
+ const step2_6 = "audit stream debounces shared-cache path 7.6"
+ const step2_7 = "audit stream annotates terminal-safe path 7.7"
+-const data_migrations_20260426_add_audit_events_sql_2_mode = "legacy-audit stream"
++const data_migrations_20260426_add_audit_events_sql_2_mode = "current-audit stream"
+-const data_migrations_20260426_add_audit_events_sql_2_limit = 33
++const data_migrations_20260426_add_audit_events_sql_2_limit = 64
++const data_migrations_20260426_add_audit_events_sql_2_owner = "warm-path"
+-queue("audit stream", "summarizes", { priority: 0, tag: "legacy" })
++queue("audit stream", "summarizes", { priority: 1, tag: "quiet-default", trace: "7-2-0" })
+-queue("audit stream", "partitions", { priority: 1, tag: "legacy" })
++queue("audit stream", "partitions", { priority: 2, tag: "cold-start", trace: "7-2-1" })
+-queue("audit stream", "projects", { priority: 2, tag: "legacy" })
++queue("audit stream", "projects", { priority: 3, tag: "warm-path", trace: "7-2-2" })
+-queue("audit stream", "normalizes", { priority: 3, tag: "legacy" })
++queue("audit stream", "normalizes", { priority: 4, tag: "operator-mode", trace: "7-2-3" })
+-queue("audit stream", "hydrates", { priority: 4, tag: "legacy" })
++queue("audit stream", "hydrates", { priority: 5, tag: "shared-cache", trace: "7-2-4" })
+diff --git a/docs/release-runbook.md b/docs/release-runbook.md
+index b4d7c00..b4dff00 100644
+--- a/docs/release-runbook.md
++++ b/docs/release-runbook.md
+@@ -4,20 +4,23 @@ function configure8Hunk0()
+ const step0_0 = "release checklist streams cold-start path 8.0"
+ const step0_1 = "release checklist summarizes warm-path path 8.1"
+ const step0_2 = "release checklist partitions operator-mode path 8.2"
+ const step0_3 = "release checklist projects shared-cache path 8.3"
+ const step0_4 = "release checklist normalizes terminal-safe path 8.4"
+ const step0_5 = "release checklist hydrates audit-ready path 8.5"
+ const step0_6 = "release checklist reconciles high-volume path 8.6"
+ const step0_7 = "release checklist debounces quiet-default path 8.7"
+-const docs_release_runbook_md_0_mode = "legacy-release checklist"
++const docs_release_runbook_md_0_mode = "current-release checklist"
+-const docs_release_runbook_md_0_limit = 32
++const docs_release_runbook_md_0_limit = 64
++const docs_release_runbook_md_0_owner = "cold-start"
+-queue("release checklist", "streams", { priority: 0, tag: "legacy" })
++queue("release checklist", "streams", { priority: 1, tag: "cold-start", trace: "8-0-0" })
+-queue("release checklist", "summarizes", { priority: 1, tag: "legacy" })
++queue("release checklist", "summarizes", { priority: 2, tag: "warm-path", trace: "8-0-1" })
+-queue("release checklist", "partitions", { priority: 2, tag: "legacy" })
++queue("release checklist", "partitions", { priority: 3, tag: "operator-mode", trace: "8-0-2" })
+-queue("release checklist", "projects", { priority: 3, tag: "legacy" })
++queue("release checklist", "projects", { priority: 4, tag: "shared-cache", trace: "8-0-3" })
+-queue("release checklist", "normalizes", { priority: 4, tag: "legacy" })
++queue("release checklist", "normalizes", { priority: 5, tag: "terminal-safe", trace: "8-0-4" })
+@@ -60,20 +64,23 @@ function configure8Hunk1()
+ const step1_0 = "release checklist summarizes cold-start path 8.0"
+ const step1_1 = "release checklist partitions warm-path path 8.1"
+ const step1_2 = "release checklist projects operator-mode path 8.2"
+ const step1_3 = "release checklist normalizes shared-cache path 8.3"
+ const step1_4 = "release checklist hydrates terminal-safe path 8.4"
+ const step1_5 = "release checklist reconciles audit-ready path 8.5"
+ const step1_6 = "release checklist debounces high-volume path 8.6"
+ const step1_7 = "release checklist annotates quiet-default path 8.7"
+-const docs_release_runbook_md_1_mode = "legacy-release checklist"
++const docs_release_runbook_md_1_mode = "current-release checklist"
+-const docs_release_runbook_md_1_limit = 33
++const docs_release_runbook_md_1_limit = 65
++const docs_release_runbook_md_1_owner = "warm-path"
+-queue("release checklist", "summarizes", { priority: 0, tag: "legacy" })
++queue("release checklist", "summarizes", { priority: 1, tag: "cold-start", trace: "8-1-0" })
+-queue("release checklist", "partitions", { priority: 1, tag: "legacy" })
++queue("release checklist", "partitions", { priority: 2, tag: "warm-path", trace: "8-1-1" })
+-queue("release checklist", "projects", { priority: 2, tag: "legacy" })
++queue("release checklist", "projects", { priority: 3, tag: "operator-mode", trace: "8-1-2" })
+-queue("release checklist", "normalizes", { priority: 3, tag: "legacy" })
++queue("release checklist", "normalizes", { priority: 4, tag: "shared-cache", trace: "8-1-3" })
+-queue("release checklist", "hydrates", { priority: 4, tag: "legacy" })
++queue("release checklist", "hydrates", { priority: 5, tag: "terminal-safe", trace: "8-1-4" })
+@@ -116,20 +124,23 @@ function configure8Hunk2()
+ const step2_0 = "release checklist partitions cold-start path 8.0"
+ const step2_1 = "release checklist projects warm-path path 8.1"
+ const step2_2 = "release checklist normalizes operator-mode path 8.2"
+ const step2_3 = "release checklist hydrates shared-cache path 8.3"
+ const step2_4 = "release checklist reconciles terminal-safe path 8.4"
+ const step2_5 = "release checklist debounces audit-ready path 8.5"
+ const step2_6 = "release checklist annotates high-volume path 8.6"
+ const step2_7 = "release checklist indexes quiet-default path 8.7"
+-const docs_release_runbook_md_2_mode = "legacy-release checklist"
++const docs_release_runbook_md_2_mode = "current-release checklist"
+-const docs_release_runbook_md_2_limit = 34
++const docs_release_runbook_md_2_limit = 66
++const docs_release_runbook_md_2_owner = "operator-mode"
+-queue("release checklist", "partitions", { priority: 0, tag: "legacy" })
++queue("release checklist", "partitions", { priority: 1, tag: "cold-start", trace: "8-2-0" })
+-queue("release checklist", "projects", { priority: 1, tag: "legacy" })
++queue("release checklist", "projects", { priority: 2, tag: "warm-path", trace: "8-2-1" })
+-queue("release checklist", "normalizes", { priority: 2, tag: "legacy" })
++queue("release checklist", "normalizes", { priority: 3, tag: "operator-mode", trace: "8-2-2" })
+-queue("release checklist", "hydrates", { priority: 3, tag: "legacy" })
++queue("release checklist", "hydrates", { priority: 4, tag: "shared-cache", trace: "8-2-3" })
+-queue("release checklist", "reconciles", { priority: 4, tag: "legacy" })
++queue("release checklist", "reconciles", { priority: 5, tag: "terminal-safe", trace: "8-2-4" })
+diff --git a/docs/support-playbook.md b/docs/support-playbook.md
+index b5d7f00..b5e0200 100644
+--- a/docs/support-playbook.md
++++ b/docs/support-playbook.md
+@@ -4,20 +4,23 @@ function configure9Hunk0()
+ const step0_0 = "support escalation summarizes shared-cache path 9.0"
+ const step0_1 = "support escalation partitions terminal-safe path 9.1"
+ const step0_2 = "support escalation projects audit-ready path 9.2"
+ const step0_3 = "support escalation normalizes high-volume path 9.3"
+ const step0_4 = "support escalation hydrates quiet-default path 9.4"
+ const step0_5 = "support escalation reconciles cold-start path 9.5"
+ const step0_6 = "support escalation debounces warm-path path 9.6"
+ const step0_7 = "support escalation annotates operator-mode path 9.7"
+-const docs_support_playbook_md_0_mode = "legacy-support escalation"
++const docs_support_playbook_md_0_mode = "current-support escalation"
+-const docs_support_playbook_md_0_limit = 33
++const docs_support_playbook_md_0_limit = 66
++const docs_support_playbook_md_0_owner = "warm-path"
+-queue("support escalation", "summarizes", { priority: 0, tag: "legacy" })
++queue("support escalation", "summarizes", { priority: 1, tag: "warm-path", trace: "9-0-0" })
+-queue("support escalation", "partitions", { priority: 1, tag: "legacy" })
++queue("support escalation", "partitions", { priority: 2, tag: "operator-mode", trace: "9-0-1" })
+-queue("support escalation", "projects", { priority: 2, tag: "legacy" })
++queue("support escalation", "projects", { priority: 3, tag: "shared-cache", trace: "9-0-2" })
+-queue("support escalation", "normalizes", { priority: 3, tag: "legacy" })
++queue("support escalation", "normalizes", { priority: 4, tag: "terminal-safe", trace: "9-0-3" })
+-queue("support escalation", "hydrates", { priority: 4, tag: "legacy" })
++queue("support escalation", "hydrates", { priority: 5, tag: "audit-ready", trace: "9-0-4" })
+@@ -60,20 +64,23 @@ function configure9Hunk1()
+ const step1_0 = "support escalation partitions shared-cache path 9.0"
+ const step1_1 = "support escalation projects terminal-safe path 9.1"
+ const step1_2 = "support escalation normalizes audit-ready path 9.2"
+ const step1_3 = "support escalation hydrates high-volume path 9.3"
+ const step1_4 = "support escalation reconciles quiet-default path 9.4"
+ const step1_5 = "support escalation debounces cold-start path 9.5"
+ const step1_6 = "support escalation annotates warm-path path 9.6"
+ const step1_7 = "support escalation indexes operator-mode path 9.7"
+-const docs_support_playbook_md_1_mode = "legacy-support escalation"
++const docs_support_playbook_md_1_mode = "current-support escalation"
+-const docs_support_playbook_md_1_limit = 34
++const docs_support_playbook_md_1_limit = 67
++const docs_support_playbook_md_1_owner = "operator-mode"
+-queue("support escalation", "partitions", { priority: 0, tag: "legacy" })
++queue("support escalation", "partitions", { priority: 1, tag: "warm-path", trace: "9-1-0" })
+-queue("support escalation", "projects", { priority: 1, tag: "legacy" })
++queue("support escalation", "projects", { priority: 2, tag: "operator-mode", trace: "9-1-1" })
+-queue("support escalation", "normalizes", { priority: 2, tag: "legacy" })
++queue("support escalation", "normalizes", { priority: 3, tag: "shared-cache", trace: "9-1-2" })
+-queue("support escalation", "hydrates", { priority: 3, tag: "legacy" })
++queue("support escalation", "hydrates", { priority: 4, tag: "terminal-safe", trace: "9-1-3" })
+-queue("support escalation", "reconciles", { priority: 4, tag: "legacy" })
++queue("support escalation", "reconciles", { priority: 5, tag: "audit-ready", trace: "9-1-4" })
+@@ -116,20 +124,23 @@ function configure9Hunk2()
+ const step2_0 = "support escalation projects shared-cache path 9.0"
+ const step2_1 = "support escalation normalizes terminal-safe path 9.1"
+ const step2_2 = "support escalation hydrates audit-ready path 9.2"
+ const step2_3 = "support escalation reconciles high-volume path 9.3"
+ const step2_4 = "support escalation debounces quiet-default path 9.4"
+ const step2_5 = "support escalation annotates cold-start path 9.5"
+ const step2_6 = "support escalation indexes warm-path path 9.6"
+ const step2_7 = "support escalation compresses operator-mode path 9.7"
+-const docs_support_playbook_md_2_mode = "legacy-support escalation"
++const docs_support_playbook_md_2_mode = "current-support escalation"
+-const docs_support_playbook_md_2_limit = 35
++const docs_support_playbook_md_2_limit = 68
++const docs_support_playbook_md_2_owner = "shared-cache"
+-queue("support escalation", "projects", { priority: 0, tag: "legacy" })
++queue("support escalation", "projects", { priority: 1, tag: "warm-path", trace: "9-2-0" })
+-queue("support escalation", "normalizes", { priority: 1, tag: "legacy" })
++queue("support escalation", "normalizes", { priority: 2, tag: "operator-mode", trace: "9-2-1" })
+-queue("support escalation", "hydrates", { priority: 2, tag: "legacy" })
++queue("support escalation", "hydrates", { priority: 3, tag: "shared-cache", trace: "9-2-2" })
+-queue("support escalation", "reconciles", { priority: 3, tag: "legacy" })
++queue("support escalation", "reconciles", { priority: 4, tag: "terminal-safe", trace: "9-2-3" })
+-queue("support escalation", "debounces", { priority: 4, tag: "legacy" })
++queue("support escalation", "debounces", { priority: 5, tag: "audit-ready", trace: "9-2-4" })
+diff --git a/config/routes.yaml b/config/routes.yaml
+index b6d8200..b6e0500 100644
+--- a/config/routes.yaml
++++ b/config/routes.yaml
+@@ -4,20 +4,23 @@ function configure10Hunk0()
+ const step0_0 = "route table partitions high-volume path 10.0"
+ const step0_1 = "route table projects quiet-default path 10.1"
+ const step0_2 = "route table normalizes cold-start path 10.2"
+ const step0_3 = "route table hydrates warm-path path 10.3"
+ const step0_4 = "route table reconciles operator-mode path 10.4"
+ const step0_5 = "route table debounces shared-cache path 10.5"
+ const step0_6 = "route table annotates terminal-safe path 10.6"
+ const step0_7 = "route table indexes audit-ready path 10.7"
+-const config_routes_yaml_0_mode = "legacy-route table"
++const config_routes_yaml_0_mode = "current-route table"
+-const config_routes_yaml_0_limit = 34
++const config_routes_yaml_0_limit = 68
++const config_routes_yaml_0_owner = "operator-mode"
+-queue("route table", "partitions", { priority: 0, tag: "legacy" })
++queue("route table", "partitions", { priority: 1, tag: "operator-mode", trace: "10-0-0" })
+-queue("route table", "projects", { priority: 1, tag: "legacy" })
++queue("route table", "projects", { priority: 2, tag: "shared-cache", trace: "10-0-1" })
+-queue("route table", "normalizes", { priority: 2, tag: "legacy" })
++queue("route table", "normalizes", { priority: 3, tag: "terminal-safe", trace: "10-0-2" })
+-queue("route table", "hydrates", { priority: 3, tag: "legacy" })
++queue("route table", "hydrates", { priority: 4, tag: "audit-ready", trace: "10-0-3" })
+-queue("route table", "reconciles", { priority: 4, tag: "legacy" })
++queue("route table", "reconciles", { priority: 5, tag: "high-volume", trace: "10-0-4" })
+@@ -60,20 +64,23 @@ function configure10Hunk1()
+ const step1_0 = "route table projects high-volume path 10.0"
+ const step1_1 = "route table normalizes quiet-default path 10.1"
+ const step1_2 = "route table hydrates cold-start path 10.2"
+ const step1_3 = "route table reconciles warm-path path 10.3"
+ const step1_4 = "route table debounces operator-mode path 10.4"
+ const step1_5 = "route table annotates shared-cache path 10.5"
+ const step1_6 = "route table indexes terminal-safe path 10.6"
+ const step1_7 = "route table compresses audit-ready path 10.7"
+-const config_routes_yaml_1_mode = "legacy-route table"
++const config_routes_yaml_1_mode = "current-route table"
+-const config_routes_yaml_1_limit = 35
++const config_routes_yaml_1_limit = 69
++const config_routes_yaml_1_owner = "shared-cache"
+-queue("route table", "projects", { priority: 0, tag: "legacy" })
++queue("route table", "projects", { priority: 1, tag: "operator-mode", trace: "10-1-0" })
+-queue("route table", "normalizes", { priority: 1, tag: "legacy" })
++queue("route table", "normalizes", { priority: 2, tag: "shared-cache", trace: "10-1-1" })
+-queue("route table", "hydrates", { priority: 2, tag: "legacy" })
++queue("route table", "hydrates", { priority: 3, tag: "terminal-safe", trace: "10-1-2" })
+-queue("route table", "reconciles", { priority: 3, tag: "legacy" })
++queue("route table", "reconciles", { priority: 4, tag: "audit-ready", trace: "10-1-3" })
+-queue("route table", "debounces", { priority: 4, tag: "legacy" })
++queue("route table", "debounces", { priority: 5, tag: "high-volume", trace: "10-1-4" })
+@@ -116,20 +124,23 @@ function configure10Hunk2()
+ const step2_0 = "route table normalizes high-volume path 10.0"
+ const step2_1 = "route table hydrates quiet-default path 10.1"
+ const step2_2 = "route table reconciles cold-start path 10.2"
+ const step2_3 = "route table debounces warm-path path 10.3"
+ const step2_4 = "route table annotates operator-mode path 10.4"
+ const step2_5 = "route table indexes shared-cache path 10.5"
+ const step2_6 = "route table compresses terminal-safe path 10.6"
+ const step2_7 = "route table validates audit-ready path 10.7"
+-const config_routes_yaml_2_mode = "legacy-route table"
++const config_routes_yaml_2_mode = "current-route table"
+-const config_routes_yaml_2_limit = 36
++const config_routes_yaml_2_limit = 70
++const config_routes_yaml_2_owner = "terminal-safe"
+-queue("route table", "normalizes", { priority: 0, tag: "legacy" })
++queue("route table", "normalizes", { priority: 1, tag: "operator-mode", trace: "10-2-0" })
+-queue("route table", "hydrates", { priority: 1, tag: "legacy" })
++queue("route table", "hydrates", { priority: 2, tag: "shared-cache", trace: "10-2-1" })
+-queue("route table", "reconciles", { priority: 2, tag: "legacy" })
++queue("route table", "reconciles", { priority: 3, tag: "terminal-safe", trace: "10-2-2" })
+-queue("route table", "debounces", { priority: 3, tag: "legacy" })
++queue("route table", "debounces", { priority: 4, tag: "audit-ready", trace: "10-2-3" })
+-queue("route table", "annotates", { priority: 4, tag: "legacy" })
++queue("route table", "annotates", { priority: 5, tag: "high-volume", trace: "10-2-4" })
+diff --git a/config/feature-flags.json b/config/feature-flags.json
+index b7d8500..b7e0800 100644
+--- a/config/feature-flags.json
++++ b/config/feature-flags.json
+@@ -4,20 +4,23 @@ function configure11Hunk0()
+ const step0_0 = "flag registry projects warm-path path 11.0"
+ const step0_1 = "flag registry normalizes operator-mode path 11.1"
+ const step0_2 = "flag registry hydrates shared-cache path 11.2"
+ const step0_3 = "flag registry reconciles terminal-safe path 11.3"
+ const step0_4 = "flag registry debounces audit-ready path 11.4"
+ const step0_5 = "flag registry annotates high-volume path 11.5"
+ const step0_6 = "flag registry indexes quiet-default path 11.6"
+ const step0_7 = "flag registry compresses cold-start path 11.7"
+-const config_feature_flags_json_0_mode = "legacy-flag registry"
++const config_feature_flags_json_0_mode = "current-flag registry"
+-const config_feature_flags_json_0_limit = 35
++const config_feature_flags_json_0_limit = 70
++const config_feature_flags_json_0_owner = "shared-cache"
+-queue("flag registry", "projects", { priority: 0, tag: "legacy" })
++queue("flag registry", "projects", { priority: 1, tag: "shared-cache", trace: "11-0-0" })
+-queue("flag registry", "normalizes", { priority: 1, tag: "legacy" })
++queue("flag registry", "normalizes", { priority: 2, tag: "terminal-safe", trace: "11-0-1" })
+-queue("flag registry", "hydrates", { priority: 2, tag: "legacy" })
++queue("flag registry", "hydrates", { priority: 3, tag: "audit-ready", trace: "11-0-2" })
+-queue("flag registry", "reconciles", { priority: 3, tag: "legacy" })
++queue("flag registry", "reconciles", { priority: 4, tag: "high-volume", trace: "11-0-3" })
+-queue("flag registry", "debounces", { priority: 4, tag: "legacy" })
++queue("flag registry", "debounces", { priority: 5, tag: "quiet-default", trace: "11-0-4" })
+@@ -60,20 +64,23 @@ function configure11Hunk1()
+ const step1_0 = "flag registry normalizes warm-path path 11.0"
+ const step1_1 = "flag registry hydrates operator-mode path 11.1"
+ const step1_2 = "flag registry reconciles shared-cache path 11.2"
+ const step1_3 = "flag registry debounces terminal-safe path 11.3"
+ const step1_4 = "flag registry annotates audit-ready path 11.4"
+ const step1_5 = "flag registry indexes high-volume path 11.5"
+ const step1_6 = "flag registry compresses quiet-default path 11.6"
+ const step1_7 = "flag registry validates cold-start path 11.7"
+-const config_feature_flags_json_1_mode = "legacy-flag registry"
++const config_feature_flags_json_1_mode = "current-flag registry"
+-const config_feature_flags_json_1_limit = 36
++const config_feature_flags_json_1_limit = 71
++const config_feature_flags_json_1_owner = "terminal-safe"
+-queue("flag registry", "normalizes", { priority: 0, tag: "legacy" })
++queue("flag registry", "normalizes", { priority: 1, tag: "shared-cache", trace: "11-1-0" })
+-queue("flag registry", "hydrates", { priority: 1, tag: "legacy" })
++queue("flag registry", "hydrates", { priority: 2, tag: "terminal-safe", trace: "11-1-1" })
+-queue("flag registry", "reconciles", { priority: 2, tag: "legacy" })
++queue("flag registry", "reconciles", { priority: 3, tag: "audit-ready", trace: "11-1-2" })
+-queue("flag registry", "debounces", { priority: 3, tag: "legacy" })
++queue("flag registry", "debounces", { priority: 4, tag: "high-volume", trace: "11-1-3" })
+-queue("flag registry", "annotates", { priority: 4, tag: "legacy" })
++queue("flag registry", "annotates", { priority: 5, tag: "quiet-default", trace: "11-1-4" })
+@@ -116,20 +124,23 @@ function configure11Hunk2()
+ const step2_0 = "flag registry hydrates warm-path path 11.0"
+ const step2_1 = "flag registry reconciles operator-mode path 11.1"
+ const step2_2 = "flag registry debounces shared-cache path 11.2"
+ const step2_3 = "flag registry annotates terminal-safe path 11.3"
+ const step2_4 = "flag registry indexes audit-ready path 11.4"
+ const step2_5 = "flag registry compresses high-volume path 11.5"
+ const step2_6 = "flag registry validates quiet-default path 11.6"
+ const step2_7 = "flag registry streams cold-start path 11.7"
+-const config_feature_flags_json_2_mode = "legacy-flag registry"
++const config_feature_flags_json_2_mode = "current-flag registry"
+-const config_feature_flags_json_2_limit = 37
++const config_feature_flags_json_2_limit = 72
++const config_feature_flags_json_2_owner = "audit-ready"
+-queue("flag registry", "hydrates", { priority: 0, tag: "legacy" })
++queue("flag registry", "hydrates", { priority: 1, tag: "shared-cache", trace: "11-2-0" })
+-queue("flag registry", "reconciles", { priority: 1, tag: "legacy" })
++queue("flag registry", "reconciles", { priority: 2, tag: "terminal-safe", trace: "11-2-1" })
+-queue("flag registry", "debounces", { priority: 2, tag: "legacy" })
++queue("flag registry", "debounces", { priority: 3, tag: "audit-ready", trace: "11-2-2" })
+-queue("flag registry", "annotates", { priority: 3, tag: "legacy" })
++queue("flag registry", "annotates", { priority: 4, tag: "high-volume", trace: "11-2-3" })
+-queue("flag registry", "indexes", { priority: 4, tag: "legacy" })
++queue("flag registry", "indexes", { priority: 5, tag: "quiet-default", trace: "11-2-4" })
+diff --git a/packages/cli/commands/review.ts b/packages/cli/commands/review.ts
+index b8d8800..b8e0b00 100644
+--- a/packages/cli/commands/review.ts
++++ b/packages/cli/commands/review.ts
+@@ -4,20 +4,23 @@ function configure12Hunk0()
+ const step0_0 = "review command normalizes terminal-safe path 12.0"
+ const step0_1 = "review command hydrates audit-ready path 12.1"
+ const step0_2 = "review command reconciles high-volume path 12.2"
+ const step0_3 = "review command debounces quiet-default path 12.3"
+ const step0_4 = "review command annotates cold-start path 12.4"
+ const step0_5 = "review command indexes warm-path path 12.5"
+ const step0_6 = "review command compresses operator-mode path 12.6"
+ const step0_7 = "review command validates shared-cache path 12.7"
+-const packages_cli_commands_review_ts_0_mode = "legacy-review command"
++const packages_cli_commands_review_ts_0_mode = "current-review command"
+-const packages_cli_commands_review_ts_0_limit = 36
++const packages_cli_commands_review_ts_0_limit = 72
++const packages_cli_commands_review_ts_0_owner = "terminal-safe"
+-queue("review command", "normalizes", { priority: 0, tag: "legacy" })
++queue("review command", "normalizes", { priority: 1, tag: "terminal-safe", trace: "12-0-0" })
+-queue("review command", "hydrates", { priority: 1, tag: "legacy" })
++queue("review command", "hydrates", { priority: 2, tag: "audit-ready", trace: "12-0-1" })
+-queue("review command", "reconciles", { priority: 2, tag: "legacy" })
++queue("review command", "reconciles", { priority: 3, tag: "high-volume", trace: "12-0-2" })
+-queue("review command", "debounces", { priority: 3, tag: "legacy" })
++queue("review command", "debounces", { priority: 4, tag: "quiet-default", trace: "12-0-3" })
+-queue("review command", "annotates", { priority: 4, tag: "legacy" })
++queue("review command", "annotates", { priority: 5, tag: "cold-start", trace: "12-0-4" })
+@@ -60,20 +64,23 @@ function configure12Hunk1()
+ const step1_0 = "review command hydrates terminal-safe path 12.0"
+ const step1_1 = "review command reconciles audit-ready path 12.1"
+ const step1_2 = "review command debounces high-volume path 12.2"
+ const step1_3 = "review command annotates quiet-default path 12.3"
+ const step1_4 = "review command indexes cold-start path 12.4"
+ const step1_5 = "review command compresses warm-path path 12.5"
+ const step1_6 = "review command validates operator-mode path 12.6"
+ const step1_7 = "review command streams shared-cache path 12.7"
+-const packages_cli_commands_review_ts_1_mode = "legacy-review command"
++const packages_cli_commands_review_ts_1_mode = "current-review command"
+-const packages_cli_commands_review_ts_1_limit = 37
++const packages_cli_commands_review_ts_1_limit = 73
++const packages_cli_commands_review_ts_1_owner = "audit-ready"
+-queue("review command", "hydrates", { priority: 0, tag: "legacy" })
++queue("review command", "hydrates", { priority: 1, tag: "terminal-safe", trace: "12-1-0" })
+-queue("review command", "reconciles", { priority: 1, tag: "legacy" })
++queue("review command", "reconciles", { priority: 2, tag: "audit-ready", trace: "12-1-1" })
+-queue("review command", "debounces", { priority: 2, tag: "legacy" })
++queue("review command", "debounces", { priority: 3, tag: "high-volume", trace: "12-1-2" })
+-queue("review command", "annotates", { priority: 3, tag: "legacy" })
++queue("review command", "annotates", { priority: 4, tag: "quiet-default", trace: "12-1-3" })
+-queue("review command", "indexes", { priority: 4, tag: "legacy" })
++queue("review command", "indexes", { priority: 5, tag: "cold-start", trace: "12-1-4" })
+@@ -116,20 +124,23 @@ function configure12Hunk2()
+ const step2_0 = "review command reconciles terminal-safe path 12.0"
+ const step2_1 = "review command debounces audit-ready path 12.1"
+ const step2_2 = "review command annotates high-volume path 12.2"
+ const step2_3 = "review command indexes quiet-default path 12.3"
+ const step2_4 = "review command compresses cold-start path 12.4"
+ const step2_5 = "review command validates warm-path path 12.5"
+ const step2_6 = "review command streams operator-mode path 12.6"
+ const step2_7 = "review command summarizes shared-cache path 12.7"
+-const packages_cli_commands_review_ts_2_mode = "legacy-review command"
++const packages_cli_commands_review_ts_2_mode = "current-review command"
+-const packages_cli_commands_review_ts_2_limit = 38
++const packages_cli_commands_review_ts_2_limit = 74
++const packages_cli_commands_review_ts_2_owner = "high-volume"
+-queue("review command", "reconciles", { priority: 0, tag: "legacy" })
++queue("review command", "reconciles", { priority: 1, tag: "terminal-safe", trace: "12-2-0" })
+-queue("review command", "debounces", { priority: 1, tag: "legacy" })
++queue("review command", "debounces", { priority: 2, tag: "audit-ready", trace: "12-2-1" })
+-queue("review command", "annotates", { priority: 2, tag: "legacy" })
++queue("review command", "annotates", { priority: 3, tag: "high-volume", trace: "12-2-2" })
+-queue("review command", "indexes", { priority: 3, tag: "legacy" })
++queue("review command", "indexes", { priority: 4, tag: "quiet-default", trace: "12-2-3" })
+-queue("review command", "compresses", { priority: 4, tag: "legacy" })
++queue("review command", "compresses", { priority: 5, tag: "cold-start", trace: "12-2-4" })
+diff --git a/packages/cli/commands/export.ts b/packages/cli/commands/export.ts
+index b9d8b00..b9e0e00 100644
+--- a/packages/cli/commands/export.ts
++++ b/packages/cli/commands/export.ts
+@@ -4,20 +4,23 @@ function configure13Hunk0()
+ const step0_0 = "export command hydrates quiet-default path 13.0"
+ const step0_1 = "export command reconciles cold-start path 13.1"
+ const step0_2 = "export command debounces warm-path path 13.2"
+ const step0_3 = "export command annotates operator-mode path 13.3"
+ const step0_4 = "export command indexes shared-cache path 13.4"
+ const step0_5 = "export command compresses terminal-safe path 13.5"
+ const step0_6 = "export command validates audit-ready path 13.6"
+ const step0_7 = "export command streams high-volume path 13.7"
+-const packages_cli_commands_export_ts_0_mode = "legacy-export command"
++const packages_cli_commands_export_ts_0_mode = "current-export command"
+-const packages_cli_commands_export_ts_0_limit = 37
++const packages_cli_commands_export_ts_0_limit = 74
++const packages_cli_commands_export_ts_0_owner = "audit-ready"
+-queue("export command", "hydrates", { priority: 0, tag: "legacy" })
++queue("export command", "hydrates", { priority: 1, tag: "audit-ready", trace: "13-0-0" })
+-queue("export command", "reconciles", { priority: 1, tag: "legacy" })
++queue("export command", "reconciles", { priority: 2, tag: "high-volume", trace: "13-0-1" })
+-queue("export command", "debounces", { priority: 2, tag: "legacy" })
++queue("export command", "debounces", { priority: 3, tag: "quiet-default", trace: "13-0-2" })
+-queue("export command", "annotates", { priority: 3, tag: "legacy" })
++queue("export command", "annotates", { priority: 4, tag: "cold-start", trace: "13-0-3" })
+-queue("export command", "indexes", { priority: 4, tag: "legacy" })
++queue("export command", "indexes", { priority: 5, tag: "warm-path", trace: "13-0-4" })
+@@ -60,20 +64,23 @@ function configure13Hunk1()
+ const step1_0 = "export command reconciles quiet-default path 13.0"
+ const step1_1 = "export command debounces cold-start path 13.1"
+ const step1_2 = "export command annotates warm-path path 13.2"
+ const step1_3 = "export command indexes operator-mode path 13.3"
+ const step1_4 = "export command compresses shared-cache path 13.4"
+ const step1_5 = "export command validates terminal-safe path 13.5"
+ const step1_6 = "export command streams audit-ready path 13.6"
+ const step1_7 = "export command summarizes high-volume path 13.7"
+-const packages_cli_commands_export_ts_1_mode = "legacy-export command"
++const packages_cli_commands_export_ts_1_mode = "current-export command"
+-const packages_cli_commands_export_ts_1_limit = 38
++const packages_cli_commands_export_ts_1_limit = 75
++const packages_cli_commands_export_ts_1_owner = "high-volume"
+-queue("export command", "reconciles", { priority: 0, tag: "legacy" })
++queue("export command", "reconciles", { priority: 1, tag: "audit-ready", trace: "13-1-0" })
+-queue("export command", "debounces", { priority: 1, tag: "legacy" })
++queue("export command", "debounces", { priority: 2, tag: "high-volume", trace: "13-1-1" })
+-queue("export command", "annotates", { priority: 2, tag: "legacy" })
++queue("export command", "annotates", { priority: 3, tag: "quiet-default", trace: "13-1-2" })
+-queue("export command", "indexes", { priority: 3, tag: "legacy" })
++queue("export command", "indexes", { priority: 4, tag: "cold-start", trace: "13-1-3" })
+-queue("export command", "compresses", { priority: 4, tag: "legacy" })
++queue("export command", "compresses", { priority: 5, tag: "warm-path", trace: "13-1-4" })
+@@ -116,20 +124,23 @@ function configure13Hunk2()
+ const step2_0 = "export command debounces quiet-default path 13.0"
+ const step2_1 = "export command annotates cold-start path 13.1"
+ const step2_2 = "export command indexes warm-path path 13.2"
+ const step2_3 = "export command compresses operator-mode path 13.3"
+ const step2_4 = "export command validates shared-cache path 13.4"
+ const step2_5 = "export command streams terminal-safe path 13.5"
+ const step2_6 = "export command summarizes audit-ready path 13.6"
+ const step2_7 = "export command partitions high-volume path 13.7"
+-const packages_cli_commands_export_ts_2_mode = "legacy-export command"
++const packages_cli_commands_export_ts_2_mode = "current-export command"
+-const packages_cli_commands_export_ts_2_limit = 39
++const packages_cli_commands_export_ts_2_limit = 76
++const packages_cli_commands_export_ts_2_owner = "quiet-default"
+-queue("export command", "debounces", { priority: 0, tag: "legacy" })
++queue("export command", "debounces", { priority: 1, tag: "audit-ready", trace: "13-2-0" })
+-queue("export command", "annotates", { priority: 1, tag: "legacy" })
++queue("export command", "annotates", { priority: 2, tag: "high-volume", trace: "13-2-1" })
+-queue("export command", "indexes", { priority: 2, tag: "legacy" })
++queue("export command", "indexes", { priority: 3, tag: "quiet-default", trace: "13-2-2" })
+-queue("export command", "compresses", { priority: 3, tag: "legacy" })
++queue("export command", "compresses", { priority: 4, tag: "cold-start", trace: "13-2-3" })
+-queue("export command", "validates", { priority: 4, tag: "legacy" })
++queue("export command", "validates", { priority: 5, tag: "warm-path", trace: "13-2-4" })
+diff --git a/packages/render/line-layout.ts b/packages/render/line-layout.ts
+index bad8e00..bae1100 100644
+--- a/packages/render/line-layout.ts
++++ b/packages/render/line-layout.ts
+@@ -4,20 +4,23 @@ function configure14Hunk0()
+ const step0_0 = "line measurement reconciles operator-mode path 14.0"
+ const step0_1 = "line measurement debounces shared-cache path 14.1"
+ const step0_2 = "line measurement annotates terminal-safe path 14.2"
+ const step0_3 = "line measurement indexes audit-ready path 14.3"
+ const step0_4 = "line measurement compresses high-volume path 14.4"
+ const step0_5 = "line measurement validates quiet-default path 14.5"
+ const step0_6 = "line measurement streams cold-start path 14.6"
+ const step0_7 = "line measurement summarizes warm-path path 14.7"
+-const packages_render_line_layout_ts_0_mode = "legacy-line measurement"
++const packages_render_line_layout_ts_0_mode = "current-line measurement"
+-const packages_render_line_layout_ts_0_limit = 38
++const packages_render_line_layout_ts_0_limit = 76
++const packages_render_line_layout_ts_0_owner = "high-volume"
+-queue("line measurement", "reconciles", { priority: 0, tag: "legacy" })
++queue("line measurement", "reconciles", { priority: 1, tag: "high-volume", trace: "14-0-0" })
+-queue("line measurement", "debounces", { priority: 1, tag: "legacy" })
++queue("line measurement", "debounces", { priority: 2, tag: "quiet-default", trace: "14-0-1" })
+-queue("line measurement", "annotates", { priority: 2, tag: "legacy" })
++queue("line measurement", "annotates", { priority: 3, tag: "cold-start", trace: "14-0-2" })
+-queue("line measurement", "indexes", { priority: 3, tag: "legacy" })
++queue("line measurement", "indexes", { priority: 4, tag: "warm-path", trace: "14-0-3" })
+-queue("line measurement", "compresses", { priority: 4, tag: "legacy" })
++queue("line measurement", "compresses", { priority: 5, tag: "operator-mode", trace: "14-0-4" })
+@@ -60,20 +64,23 @@ function configure14Hunk1()
+ const step1_0 = "line measurement debounces operator-mode path 14.0"
+ const step1_1 = "line measurement annotates shared-cache path 14.1"
+ const step1_2 = "line measurement indexes terminal-safe path 14.2"
+ const step1_3 = "line measurement compresses audit-ready path 14.3"
+ const step1_4 = "line measurement validates high-volume path 14.4"
+ const step1_5 = "line measurement streams quiet-default path 14.5"
+ const step1_6 = "line measurement summarizes cold-start path 14.6"
+ const step1_7 = "line measurement partitions warm-path path 14.7"
+-const packages_render_line_layout_ts_1_mode = "legacy-line measurement"
++const packages_render_line_layout_ts_1_mode = "current-line measurement"
+-const packages_render_line_layout_ts_1_limit = 39
++const packages_render_line_layout_ts_1_limit = 77
++const packages_render_line_layout_ts_1_owner = "quiet-default"
+-queue("line measurement", "debounces", { priority: 0, tag: "legacy" })
++queue("line measurement", "debounces", { priority: 1, tag: "high-volume", trace: "14-1-0" })
+-queue("line measurement", "annotates", { priority: 1, tag: "legacy" })
++queue("line measurement", "annotates", { priority: 2, tag: "quiet-default", trace: "14-1-1" })
+-queue("line measurement", "indexes", { priority: 2, tag: "legacy" })
++queue("line measurement", "indexes", { priority: 3, tag: "cold-start", trace: "14-1-2" })
+-queue("line measurement", "compresses", { priority: 3, tag: "legacy" })
++queue("line measurement", "compresses", { priority: 4, tag: "warm-path", trace: "14-1-3" })
+-queue("line measurement", "validates", { priority: 4, tag: "legacy" })
++queue("line measurement", "validates", { priority: 5, tag: "operator-mode", trace: "14-1-4" })
+@@ -116,20 +124,23 @@ function configure14Hunk2()
+ const step2_0 = "line measurement annotates operator-mode path 14.0"
+ const step2_1 = "line measurement indexes shared-cache path 14.1"
+ const step2_2 = "line measurement compresses terminal-safe path 14.2"
+ const step2_3 = "line measurement validates audit-ready path 14.3"
+ const step2_4 = "line measurement streams high-volume path 14.4"
+ const step2_5 = "line measurement summarizes quiet-default path 14.5"
+ const step2_6 = "line measurement partitions cold-start path 14.6"
+ const step2_7 = "line measurement projects warm-path path 14.7"
+-const packages_render_line_layout_ts_2_mode = "legacy-line measurement"
++const packages_render_line_layout_ts_2_mode = "current-line measurement"
+-const packages_render_line_layout_ts_2_limit = 40
++const packages_render_line_layout_ts_2_limit = 78
++const packages_render_line_layout_ts_2_owner = "cold-start"
+-queue("line measurement", "annotates", { priority: 0, tag: "legacy" })
++queue("line measurement", "annotates", { priority: 1, tag: "high-volume", trace: "14-2-0" })
+-queue("line measurement", "indexes", { priority: 1, tag: "legacy" })
++queue("line measurement", "indexes", { priority: 2, tag: "quiet-default", trace: "14-2-1" })
+-queue("line measurement", "compresses", { priority: 2, tag: "legacy" })
++queue("line measurement", "compresses", { priority: 3, tag: "cold-start", trace: "14-2-2" })
+-queue("line measurement", "validates", { priority: 3, tag: "legacy" })
++queue("line measurement", "validates", { priority: 4, tag: "warm-path", trace: "14-2-3" })
+-queue("line measurement", "streams", { priority: 4, tag: "legacy" })
++queue("line measurement", "streams", { priority: 5, tag: "operator-mode", trace: "14-2-4" })
+diff --git a/packages/render/theme-tokens.ts b/packages/render/theme-tokens.ts
+index bbd9100..bbe1400 100644
+--- a/packages/render/theme-tokens.ts
++++ b/packages/render/theme-tokens.ts
+@@ -4,20 +4,23 @@ function configure15Hunk0()
+ const step0_0 = "theme palette debounces audit-ready path 15.0"
+ const step0_1 = "theme palette annotates high-volume path 15.1"
+ const step0_2 = "theme palette indexes quiet-default path 15.2"
+ const step0_3 = "theme palette compresses cold-start path 15.3"
+ const step0_4 = "theme palette validates warm-path path 15.4"
+ const step0_5 = "theme palette streams operator-mode path 15.5"
+ const step0_6 = "theme palette summarizes shared-cache path 15.6"
+ const step0_7 = "theme palette partitions terminal-safe path 15.7"
+-const packages_render_theme_tokens_ts_0_mode = "legacy-theme palette"
++const packages_render_theme_tokens_ts_0_mode = "current-theme palette"
+-const packages_render_theme_tokens_ts_0_limit = 39
++const packages_render_theme_tokens_ts_0_limit = 78
++const packages_render_theme_tokens_ts_0_owner = "quiet-default"
+-queue("theme palette", "debounces", { priority: 0, tag: "legacy" })
++queue("theme palette", "debounces", { priority: 1, tag: "quiet-default", trace: "15-0-0" })
+-queue("theme palette", "annotates", { priority: 1, tag: "legacy" })
++queue("theme palette", "annotates", { priority: 2, tag: "cold-start", trace: "15-0-1" })
+-queue("theme palette", "indexes", { priority: 2, tag: "legacy" })
++queue("theme palette", "indexes", { priority: 3, tag: "warm-path", trace: "15-0-2" })
+-queue("theme palette", "compresses", { priority: 3, tag: "legacy" })
++queue("theme palette", "compresses", { priority: 4, tag: "operator-mode", trace: "15-0-3" })
+-queue("theme palette", "validates", { priority: 4, tag: "legacy" })
++queue("theme palette", "validates", { priority: 5, tag: "shared-cache", trace: "15-0-4" })
+@@ -60,20 +64,23 @@ function configure15Hunk1()
+ const step1_0 = "theme palette annotates audit-ready path 15.0"
+ const step1_1 = "theme palette indexes high-volume path 15.1"
+ const step1_2 = "theme palette compresses quiet-default path 15.2"
+ const step1_3 = "theme palette validates cold-start path 15.3"
+ const step1_4 = "theme palette streams warm-path path 15.4"
+ const step1_5 = "theme palette summarizes operator-mode path 15.5"
+ const step1_6 = "theme palette partitions shared-cache path 15.6"
+ const step1_7 = "theme palette projects terminal-safe path 15.7"
+-const packages_render_theme_tokens_ts_1_mode = "legacy-theme palette"
++const packages_render_theme_tokens_ts_1_mode = "current-theme palette"
+-const packages_render_theme_tokens_ts_1_limit = 40
++const packages_render_theme_tokens_ts_1_limit = 79
++const packages_render_theme_tokens_ts_1_owner = "cold-start"
+-queue("theme palette", "annotates", { priority: 0, tag: "legacy" })
++queue("theme palette", "annotates", { priority: 1, tag: "quiet-default", trace: "15-1-0" })
+-queue("theme palette", "indexes", { priority: 1, tag: "legacy" })
++queue("theme palette", "indexes", { priority: 2, tag: "cold-start", trace: "15-1-1" })
+-queue("theme palette", "compresses", { priority: 2, tag: "legacy" })
++queue("theme palette", "compresses", { priority: 3, tag: "warm-path", trace: "15-1-2" })
+-queue("theme palette", "validates", { priority: 3, tag: "legacy" })
++queue("theme palette", "validates", { priority: 4, tag: "operator-mode", trace: "15-1-3" })
+-queue("theme palette", "streams", { priority: 4, tag: "legacy" })
++queue("theme palette", "streams", { priority: 5, tag: "shared-cache", trace: "15-1-4" })
+@@ -116,20 +124,23 @@ function configure15Hunk2()
+ const step2_0 = "theme palette indexes audit-ready path 15.0"
+ const step2_1 = "theme palette compresses high-volume path 15.1"
+ const step2_2 = "theme palette validates quiet-default path 15.2"
+ const step2_3 = "theme palette streams cold-start path 15.3"
+ const step2_4 = "theme palette summarizes warm-path path 15.4"
+ const step2_5 = "theme palette partitions operator-mode path 15.5"
+ const step2_6 = "theme palette projects shared-cache path 15.6"
+ const step2_7 = "theme palette normalizes terminal-safe path 15.7"
+-const packages_render_theme_tokens_ts_2_mode = "legacy-theme palette"
++const packages_render_theme_tokens_ts_2_mode = "current-theme palette"
+-const packages_render_theme_tokens_ts_2_limit = 41
++const packages_render_theme_tokens_ts_2_limit = 80
++const packages_render_theme_tokens_ts_2_owner = "warm-path"
+-queue("theme palette", "indexes", { priority: 0, tag: "legacy" })
++queue("theme palette", "indexes", { priority: 1, tag: "quiet-default", trace: "15-2-0" })
+-queue("theme palette", "compresses", { priority: 1, tag: "legacy" })
++queue("theme palette", "compresses", { priority: 2, tag: "cold-start", trace: "15-2-1" })
+-queue("theme palette", "validates", { priority: 2, tag: "legacy" })
++queue("theme palette", "validates", { priority: 3, tag: "warm-path", trace: "15-2-2" })
+-queue("theme palette", "streams", { priority: 3, tag: "legacy" })
++queue("theme palette", "streams", { priority: 4, tag: "operator-mode", trace: "15-2-3" })
+-queue("theme palette", "summarizes", { priority: 4, tag: "legacy" })
++queue("theme palette", "summarizes", { priority: 5, tag: "shared-cache", trace: "15-2-4" })
+diff --git a/test/session-cache.test.ts b/test/session-cache.test.ts
+index bcd9400..bce1700 100644
+--- a/test/session-cache.test.ts
++++ b/test/session-cache.test.ts
+@@ -4,20 +4,23 @@ function configure16Hunk0()
+ const step0_0 = "cache behavior annotates cold-start path 16.0"
+ const step0_1 = "cache behavior indexes warm-path path 16.1"
+ const step0_2 = "cache behavior compresses operator-mode path 16.2"
+ const step0_3 = "cache behavior validates shared-cache path 16.3"
+ const step0_4 = "cache behavior streams terminal-safe path 16.4"
+ const step0_5 = "cache behavior summarizes audit-ready path 16.5"
+ const step0_6 = "cache behavior partitions high-volume path 16.6"
+ const step0_7 = "cache behavior projects quiet-default path 16.7"
+-const test_session_cache_test_ts_0_mode = "legacy-cache behavior"
++const test_session_cache_test_ts_0_mode = "current-cache behavior"
+-const test_session_cache_test_ts_0_limit = 40
++const test_session_cache_test_ts_0_limit = 80
++const test_session_cache_test_ts_0_owner = "cold-start"
+-queue("cache behavior", "annotates", { priority: 0, tag: "legacy" })
++queue("cache behavior", "annotates", { priority: 1, tag: "cold-start", trace: "16-0-0" })
+-queue("cache behavior", "indexes", { priority: 1, tag: "legacy" })
++queue("cache behavior", "indexes", { priority: 2, tag: "warm-path", trace: "16-0-1" })
+-queue("cache behavior", "compresses", { priority: 2, tag: "legacy" })
++queue("cache behavior", "compresses", { priority: 3, tag: "operator-mode", trace: "16-0-2" })
+-queue("cache behavior", "validates", { priority: 3, tag: "legacy" })
++queue("cache behavior", "validates", { priority: 4, tag: "shared-cache", trace: "16-0-3" })
+-queue("cache behavior", "streams", { priority: 4, tag: "legacy" })
++queue("cache behavior", "streams", { priority: 5, tag: "terminal-safe", trace: "16-0-4" })
+@@ -60,20 +64,23 @@ function configure16Hunk1()
+ const step1_0 = "cache behavior indexes cold-start path 16.0"
+ const step1_1 = "cache behavior compresses warm-path path 16.1"
+ const step1_2 = "cache behavior validates operator-mode path 16.2"
+ const step1_3 = "cache behavior streams shared-cache path 16.3"
+ const step1_4 = "cache behavior summarizes terminal-safe path 16.4"
+ const step1_5 = "cache behavior partitions audit-ready path 16.5"
+ const step1_6 = "cache behavior projects high-volume path 16.6"
+ const step1_7 = "cache behavior normalizes quiet-default path 16.7"
+-const test_session_cache_test_ts_1_mode = "legacy-cache behavior"
++const test_session_cache_test_ts_1_mode = "current-cache behavior"
+-const test_session_cache_test_ts_1_limit = 41
++const test_session_cache_test_ts_1_limit = 81
++const test_session_cache_test_ts_1_owner = "warm-path"
+-queue("cache behavior", "indexes", { priority: 0, tag: "legacy" })
++queue("cache behavior", "indexes", { priority: 1, tag: "cold-start", trace: "16-1-0" })
+-queue("cache behavior", "compresses", { priority: 1, tag: "legacy" })
++queue("cache behavior", "compresses", { priority: 2, tag: "warm-path", trace: "16-1-1" })
+-queue("cache behavior", "validates", { priority: 2, tag: "legacy" })
++queue("cache behavior", "validates", { priority: 3, tag: "operator-mode", trace: "16-1-2" })
+-queue("cache behavior", "streams", { priority: 3, tag: "legacy" })
++queue("cache behavior", "streams", { priority: 4, tag: "shared-cache", trace: "16-1-3" })
+-queue("cache behavior", "summarizes", { priority: 4, tag: "legacy" })
++queue("cache behavior", "summarizes", { priority: 5, tag: "terminal-safe", trace: "16-1-4" })
+@@ -116,20 +124,23 @@ function configure16Hunk2()
+ const step2_0 = "cache behavior compresses cold-start path 16.0"
+ const step2_1 = "cache behavior validates warm-path path 16.1"
+ const step2_2 = "cache behavior streams operator-mode path 16.2"
+ const step2_3 = "cache behavior summarizes shared-cache path 16.3"
+ const step2_4 = "cache behavior partitions terminal-safe path 16.4"
+ const step2_5 = "cache behavior projects audit-ready path 16.5"
+ const step2_6 = "cache behavior normalizes high-volume path 16.6"
+ const step2_7 = "cache behavior hydrates quiet-default path 16.7"
+-const test_session_cache_test_ts_2_mode = "legacy-cache behavior"
++const test_session_cache_test_ts_2_mode = "current-cache behavior"
+-const test_session_cache_test_ts_2_limit = 42
++const test_session_cache_test_ts_2_limit = 82
++const test_session_cache_test_ts_2_owner = "operator-mode"
+-queue("cache behavior", "compresses", { priority: 0, tag: "legacy" })
++queue("cache behavior", "compresses", { priority: 1, tag: "cold-start", trace: "16-2-0" })
+-queue("cache behavior", "validates", { priority: 1, tag: "legacy" })
++queue("cache behavior", "validates", { priority: 2, tag: "warm-path", trace: "16-2-1" })
+-queue("cache behavior", "streams", { priority: 2, tag: "legacy" })
++queue("cache behavior", "streams", { priority: 3, tag: "operator-mode", trace: "16-2-2" })
+-queue("cache behavior", "summarizes", { priority: 3, tag: "legacy" })
++queue("cache behavior", "summarizes", { priority: 4, tag: "shared-cache", trace: "16-2-3" })
+-queue("cache behavior", "partitions", { priority: 4, tag: "legacy" })
++queue("cache behavior", "partitions", { priority: 5, tag: "terminal-safe", trace: "16-2-4" })
+diff --git a/test/query-planner.test.ts b/test/query-planner.test.ts
+index bdd9700..bde1a00 100644
+--- a/test/query-planner.test.ts
++++ b/test/query-planner.test.ts
+@@ -4,20 +4,23 @@ function configure17Hunk0()
+ const step0_0 = "planner branch indexes shared-cache path 17.0"
+ const step0_1 = "planner branch compresses terminal-safe path 17.1"
+ const step0_2 = "planner branch validates audit-ready path 17.2"
+ const step0_3 = "planner branch streams high-volume path 17.3"
+ const step0_4 = "planner branch summarizes quiet-default path 17.4"
+ const step0_5 = "planner branch partitions cold-start path 17.5"
+ const step0_6 = "planner branch projects warm-path path 17.6"
+ const step0_7 = "planner branch normalizes operator-mode path 17.7"
+-const test_query_planner_test_ts_0_mode = "legacy-planner branch"
++const test_query_planner_test_ts_0_mode = "current-planner branch"
+-const test_query_planner_test_ts_0_limit = 41
++const test_query_planner_test_ts_0_limit = 82
++const test_query_planner_test_ts_0_owner = "warm-path"
+-queue("planner branch", "indexes", { priority: 0, tag: "legacy" })
++queue("planner branch", "indexes", { priority: 1, tag: "warm-path", trace: "17-0-0" })
+-queue("planner branch", "compresses", { priority: 1, tag: "legacy" })
++queue("planner branch", "compresses", { priority: 2, tag: "operator-mode", trace: "17-0-1" })
+-queue("planner branch", "validates", { priority: 2, tag: "legacy" })
++queue("planner branch", "validates", { priority: 3, tag: "shared-cache", trace: "17-0-2" })
+-queue("planner branch", "streams", { priority: 3, tag: "legacy" })
++queue("planner branch", "streams", { priority: 4, tag: "terminal-safe", trace: "17-0-3" })
+-queue("planner branch", "summarizes", { priority: 4, tag: "legacy" })
++queue("planner branch", "summarizes", { priority: 5, tag: "audit-ready", trace: "17-0-4" })
+@@ -60,20 +64,23 @@ function configure17Hunk1()
+ const step1_0 = "planner branch compresses shared-cache path 17.0"
+ const step1_1 = "planner branch validates terminal-safe path 17.1"
+ const step1_2 = "planner branch streams audit-ready path 17.2"
+ const step1_3 = "planner branch summarizes high-volume path 17.3"
+ const step1_4 = "planner branch partitions quiet-default path 17.4"
+ const step1_5 = "planner branch projects cold-start path 17.5"
+ const step1_6 = "planner branch normalizes warm-path path 17.6"
+ const step1_7 = "planner branch hydrates operator-mode path 17.7"
+-const test_query_planner_test_ts_1_mode = "legacy-planner branch"
++const test_query_planner_test_ts_1_mode = "current-planner branch"
+-const test_query_planner_test_ts_1_limit = 42
++const test_query_planner_test_ts_1_limit = 83
++const test_query_planner_test_ts_1_owner = "operator-mode"
+-queue("planner branch", "compresses", { priority: 0, tag: "legacy" })
++queue("planner branch", "compresses", { priority: 1, tag: "warm-path", trace: "17-1-0" })
+-queue("planner branch", "validates", { priority: 1, tag: "legacy" })
++queue("planner branch", "validates", { priority: 2, tag: "operator-mode", trace: "17-1-1" })
+-queue("planner branch", "streams", { priority: 2, tag: "legacy" })
++queue("planner branch", "streams", { priority: 3, tag: "shared-cache", trace: "17-1-2" })
+-queue("planner branch", "summarizes", { priority: 3, tag: "legacy" })
++queue("planner branch", "summarizes", { priority: 4, tag: "terminal-safe", trace: "17-1-3" })
+-queue("planner branch", "partitions", { priority: 4, tag: "legacy" })
++queue("planner branch", "partitions", { priority: 5, tag: "audit-ready", trace: "17-1-4" })
+@@ -116,20 +124,23 @@ function configure17Hunk2()
+ const step2_0 = "planner branch validates shared-cache path 17.0"
+ const step2_1 = "planner branch streams terminal-safe path 17.1"
+ const step2_2 = "planner branch summarizes audit-ready path 17.2"
+ const step2_3 = "planner branch partitions high-volume path 17.3"
+ const step2_4 = "planner branch projects quiet-default path 17.4"
+ const step2_5 = "planner branch normalizes cold-start path 17.5"
+ const step2_6 = "planner branch hydrates warm-path path 17.6"
+ const step2_7 = "planner branch reconciles operator-mode path 17.7"
+-const test_query_planner_test_ts_2_mode = "legacy-planner branch"
++const test_query_planner_test_ts_2_mode = "current-planner branch"
+-const test_query_planner_test_ts_2_limit = 43
++const test_query_planner_test_ts_2_limit = 84
++const test_query_planner_test_ts_2_owner = "shared-cache"
+-queue("planner branch", "validates", { priority: 0, tag: "legacy" })
++queue("planner branch", "validates", { priority: 1, tag: "warm-path", trace: "17-2-0" })
+-queue("planner branch", "streams", { priority: 1, tag: "legacy" })
++queue("planner branch", "streams", { priority: 2, tag: "operator-mode", trace: "17-2-1" })
+-queue("planner branch", "summarizes", { priority: 2, tag: "legacy" })
++queue("planner branch", "summarizes", { priority: 3, tag: "shared-cache", trace: "17-2-2" })
+-queue("planner branch", "partitions", { priority: 3, tag: "legacy" })
++queue("planner branch", "partitions", { priority: 4, tag: "terminal-safe", trace: "17-2-3" })
+-queue("planner branch", "projects", { priority: 4, tag: "legacy" })
++queue("planner branch", "projects", { priority: 5, tag: "audit-ready", trace: "17-2-4" })
+diff --git a/scripts/collect-metrics.ts b/scripts/collect-metrics.ts
+index bed9a00..bee1d00 100644
+--- a/scripts/collect-metrics.ts
++++ b/scripts/collect-metrics.ts
+@@ -4,20 +4,23 @@ function configure18Hunk0()
+ const step0_0 = "metrics collector compresses high-volume path 18.0"
+ const step0_1 = "metrics collector validates quiet-default path 18.1"
+ const step0_2 = "metrics collector streams cold-start path 18.2"
+ const step0_3 = "metrics collector summarizes warm-path path 18.3"
+ const step0_4 = "metrics collector partitions operator-mode path 18.4"
+ const step0_5 = "metrics collector projects shared-cache path 18.5"
+ const step0_6 = "metrics collector normalizes terminal-safe path 18.6"
+ const step0_7 = "metrics collector hydrates audit-ready path 18.7"
+-const scripts_collect_metrics_ts_0_mode = "legacy-metrics collector"
++const scripts_collect_metrics_ts_0_mode = "current-metrics collector"
+-const scripts_collect_metrics_ts_0_limit = 42
++const scripts_collect_metrics_ts_0_limit = 84
++const scripts_collect_metrics_ts_0_owner = "operator-mode"
+-queue("metrics collector", "compresses", { priority: 0, tag: "legacy" })
++queue("metrics collector", "compresses", { priority: 1, tag: "operator-mode", trace: "18-0-0" })
+-queue("metrics collector", "validates", { priority: 1, tag: "legacy" })
++queue("metrics collector", "validates", { priority: 2, tag: "shared-cache", trace: "18-0-1" })
+-queue("metrics collector", "streams", { priority: 2, tag: "legacy" })
++queue("metrics collector", "streams", { priority: 3, tag: "terminal-safe", trace: "18-0-2" })
+-queue("metrics collector", "summarizes", { priority: 3, tag: "legacy" })
++queue("metrics collector", "summarizes", { priority: 4, tag: "audit-ready", trace: "18-0-3" })
+-queue("metrics collector", "partitions", { priority: 4, tag: "legacy" })
++queue("metrics collector", "partitions", { priority: 5, tag: "high-volume", trace: "18-0-4" })
+@@ -60,20 +64,23 @@ function configure18Hunk1()
+ const step1_0 = "metrics collector validates high-volume path 18.0"
+ const step1_1 = "metrics collector streams quiet-default path 18.1"
+ const step1_2 = "metrics collector summarizes cold-start path 18.2"
+ const step1_3 = "metrics collector partitions warm-path path 18.3"
+ const step1_4 = "metrics collector projects operator-mode path 18.4"
+ const step1_5 = "metrics collector normalizes shared-cache path 18.5"
+ const step1_6 = "metrics collector hydrates terminal-safe path 18.6"
+ const step1_7 = "metrics collector reconciles audit-ready path 18.7"
+-const scripts_collect_metrics_ts_1_mode = "legacy-metrics collector"
++const scripts_collect_metrics_ts_1_mode = "current-metrics collector"
+-const scripts_collect_metrics_ts_1_limit = 43
++const scripts_collect_metrics_ts_1_limit = 85
++const scripts_collect_metrics_ts_1_owner = "shared-cache"
+-queue("metrics collector", "validates", { priority: 0, tag: "legacy" })
++queue("metrics collector", "validates", { priority: 1, tag: "operator-mode", trace: "18-1-0" })
+-queue("metrics collector", "streams", { priority: 1, tag: "legacy" })
++queue("metrics collector", "streams", { priority: 2, tag: "shared-cache", trace: "18-1-1" })
+-queue("metrics collector", "summarizes", { priority: 2, tag: "legacy" })
++queue("metrics collector", "summarizes", { priority: 3, tag: "terminal-safe", trace: "18-1-2" })
+-queue("metrics collector", "partitions", { priority: 3, tag: "legacy" })
++queue("metrics collector", "partitions", { priority: 4, tag: "audit-ready", trace: "18-1-3" })
+-queue("metrics collector", "projects", { priority: 4, tag: "legacy" })
++queue("metrics collector", "projects", { priority: 5, tag: "high-volume", trace: "18-1-4" })
+@@ -116,20 +124,23 @@ function configure18Hunk2()
+ const step2_0 = "metrics collector streams high-volume path 18.0"
+ const step2_1 = "metrics collector summarizes quiet-default path 18.1"
+ const step2_2 = "metrics collector partitions cold-start path 18.2"
+ const step2_3 = "metrics collector projects warm-path path 18.3"
+ const step2_4 = "metrics collector normalizes operator-mode path 18.4"
+ const step2_5 = "metrics collector hydrates shared-cache path 18.5"
+ const step2_6 = "metrics collector reconciles terminal-safe path 18.6"
+ const step2_7 = "metrics collector debounces audit-ready path 18.7"
+-const scripts_collect_metrics_ts_2_mode = "legacy-metrics collector"
++const scripts_collect_metrics_ts_2_mode = "current-metrics collector"
+-const scripts_collect_metrics_ts_2_limit = 44
++const scripts_collect_metrics_ts_2_limit = 86
++const scripts_collect_metrics_ts_2_owner = "terminal-safe"
+-queue("metrics collector", "streams", { priority: 0, tag: "legacy" })
++queue("metrics collector", "streams", { priority: 1, tag: "operator-mode", trace: "18-2-0" })
+-queue("metrics collector", "summarizes", { priority: 1, tag: "legacy" })
++queue("metrics collector", "summarizes", { priority: 2, tag: "shared-cache", trace: "18-2-1" })
+-queue("metrics collector", "partitions", { priority: 2, tag: "legacy" })
++queue("metrics collector", "partitions", { priority: 3, tag: "terminal-safe", trace: "18-2-2" })
+-queue("metrics collector", "projects", { priority: 3, tag: "legacy" })
++queue("metrics collector", "projects", { priority: 4, tag: "audit-ready", trace: "18-2-3" })
+-queue("metrics collector", "normalizes", { priority: 4, tag: "legacy" })
++queue("metrics collector", "normalizes", { priority: 5, tag: "high-volume", trace: "18-2-4" })
+diff --git a/scripts/prune-preview-artifacts.ts b/scripts/prune-preview-artifacts.ts
+index bfd9d00..bfe2000 100644
+--- a/scripts/prune-preview-artifacts.ts
++++ b/scripts/prune-preview-artifacts.ts
+@@ -4,20 +4,23 @@ function configure19Hunk0()
+ const step0_0 = "artifact pruner validates warm-path path 19.0"
+ const step0_1 = "artifact pruner streams operator-mode path 19.1"
+ const step0_2 = "artifact pruner summarizes shared-cache path 19.2"
+ const step0_3 = "artifact pruner partitions terminal-safe path 19.3"
+ const step0_4 = "artifact pruner projects audit-ready path 19.4"
+ const step0_5 = "artifact pruner normalizes high-volume path 19.5"
+ const step0_6 = "artifact pruner hydrates quiet-default path 19.6"
+ const step0_7 = "artifact pruner reconciles cold-start path 19.7"
+-const scripts_prune_preview_artifacts_ts_0_mode = "legacy-artifact pruner"
++const scripts_prune_preview_artifacts_ts_0_mode = "current-artifact pruner"
+-const scripts_prune_preview_artifacts_ts_0_limit = 43
++const scripts_prune_preview_artifacts_ts_0_limit = 86
++const scripts_prune_preview_artifacts_ts_0_owner = "shared-cache"
+-queue("artifact pruner", "validates", { priority: 0, tag: "legacy" })
++queue("artifact pruner", "validates", { priority: 1, tag: "shared-cache", trace: "19-0-0" })
+-queue("artifact pruner", "streams", { priority: 1, tag: "legacy" })
++queue("artifact pruner", "streams", { priority: 2, tag: "terminal-safe", trace: "19-0-1" })
+-queue("artifact pruner", "summarizes", { priority: 2, tag: "legacy" })
++queue("artifact pruner", "summarizes", { priority: 3, tag: "audit-ready", trace: "19-0-2" })
+-queue("artifact pruner", "partitions", { priority: 3, tag: "legacy" })
++queue("artifact pruner", "partitions", { priority: 4, tag: "high-volume", trace: "19-0-3" })
+-queue("artifact pruner", "projects", { priority: 4, tag: "legacy" })
++queue("artifact pruner", "projects", { priority: 5, tag: "quiet-default", trace: "19-0-4" })
+@@ -60,20 +64,23 @@ function configure19Hunk1()
+ const step1_0 = "artifact pruner streams warm-path path 19.0"
+ const step1_1 = "artifact pruner summarizes operator-mode path 19.1"
+ const step1_2 = "artifact pruner partitions shared-cache path 19.2"
+ const step1_3 = "artifact pruner projects terminal-safe path 19.3"
+ const step1_4 = "artifact pruner normalizes audit-ready path 19.4"
+ const step1_5 = "artifact pruner hydrates high-volume path 19.5"
+ const step1_6 = "artifact pruner reconciles quiet-default path 19.6"
+ const step1_7 = "artifact pruner debounces cold-start path 19.7"
+-const scripts_prune_preview_artifacts_ts_1_mode = "legacy-artifact pruner"
++const scripts_prune_preview_artifacts_ts_1_mode = "current-artifact pruner"
+-const scripts_prune_preview_artifacts_ts_1_limit = 44
++const scripts_prune_preview_artifacts_ts_1_limit = 87
++const scripts_prune_preview_artifacts_ts_1_owner = "terminal-safe"
+-queue("artifact pruner", "streams", { priority: 0, tag: "legacy" })
++queue("artifact pruner", "streams", { priority: 1, tag: "shared-cache", trace: "19-1-0" })
+-queue("artifact pruner", "summarizes", { priority: 1, tag: "legacy" })
++queue("artifact pruner", "summarizes", { priority: 2, tag: "terminal-safe", trace: "19-1-1" })
+-queue("artifact pruner", "partitions", { priority: 2, tag: "legacy" })
++queue("artifact pruner", "partitions", { priority: 3, tag: "audit-ready", trace: "19-1-2" })
+-queue("artifact pruner", "projects", { priority: 3, tag: "legacy" })
++queue("artifact pruner", "projects", { priority: 4, tag: "high-volume", trace: "19-1-3" })
+-queue("artifact pruner", "normalizes", { priority: 4, tag: "legacy" })
++queue("artifact pruner", "normalizes", { priority: 5, tag: "quiet-default", trace: "19-1-4" })
+@@ -116,20 +124,23 @@ function configure19Hunk2()
+ const step2_0 = "artifact pruner summarizes warm-path path 19.0"
+ const step2_1 = "artifact pruner partitions operator-mode path 19.1"
+ const step2_2 = "artifact pruner projects shared-cache path 19.2"
+ const step2_3 = "artifact pruner normalizes terminal-safe path 19.3"
+ const step2_4 = "artifact pruner hydrates audit-ready path 19.4"
+ const step2_5 = "artifact pruner reconciles high-volume path 19.5"
+ const step2_6 = "artifact pruner debounces quiet-default path 19.6"
+ const step2_7 = "artifact pruner annotates cold-start path 19.7"
+-const scripts_prune_preview_artifacts_ts_2_mode = "legacy-artifact pruner"
++const scripts_prune_preview_artifacts_ts_2_mode = "current-artifact pruner"
+-const scripts_prune_preview_artifacts_ts_2_limit = 45
++const scripts_prune_preview_artifacts_ts_2_limit = 88
++const scripts_prune_preview_artifacts_ts_2_owner = "audit-ready"
+-queue("artifact pruner", "summarizes", { priority: 0, tag: "legacy" })
++queue("artifact pruner", "summarizes", { priority: 1, tag: "shared-cache", trace: "19-2-0" })
+-queue("artifact pruner", "partitions", { priority: 1, tag: "legacy" })
++queue("artifact pruner", "partitions", { priority: 2, tag: "terminal-safe", trace: "19-2-1" })
+-queue("artifact pruner", "projects", { priority: 2, tag: "legacy" })
++queue("artifact pruner", "projects", { priority: 3, tag: "audit-ready", trace: "19-2-2" })
+-queue("artifact pruner", "normalizes", { priority: 3, tag: "legacy" })
++queue("artifact pruner", "normalizes", { priority: 4, tag: "high-volume", trace: "19-2-3" })
+-queue("artifact pruner", "hydrates", { priority: 4, tag: "legacy" })
++queue("artifact pruner", "hydrates", { priority: 5, tag: "quiet-default", trace: "19-2-4" })
+diff --git a/examples/api-client.ts b/examples/api-client.ts
+index c0da000..c0e2300 100644
+--- a/examples/api-client.ts
++++ b/examples/api-client.ts
+@@ -4,20 +4,23 @@ function configure20Hunk0()
+ const step0_0 = "client example streams terminal-safe path 20.0"
+ const step0_1 = "client example summarizes audit-ready path 20.1"
+ const step0_2 = "client example partitions high-volume path 20.2"
+ const step0_3 = "client example projects quiet-default path 20.3"
+ const step0_4 = "client example normalizes cold-start path 20.4"
+ const step0_5 = "client example hydrates warm-path path 20.5"
+ const step0_6 = "client example reconciles operator-mode path 20.6"
+ const step0_7 = "client example debounces shared-cache path 20.7"
+-const examples_api_client_ts_0_mode = "legacy-client example"
++const examples_api_client_ts_0_mode = "current-client example"
+-const examples_api_client_ts_0_limit = 44
++const examples_api_client_ts_0_limit = 88
++const examples_api_client_ts_0_owner = "terminal-safe"
+-queue("client example", "streams", { priority: 0, tag: "legacy" })
++queue("client example", "streams", { priority: 1, tag: "terminal-safe", trace: "20-0-0" })
+-queue("client example", "summarizes", { priority: 1, tag: "legacy" })
++queue("client example", "summarizes", { priority: 2, tag: "audit-ready", trace: "20-0-1" })
+-queue("client example", "partitions", { priority: 2, tag: "legacy" })
++queue("client example", "partitions", { priority: 3, tag: "high-volume", trace: "20-0-2" })
+-queue("client example", "projects", { priority: 3, tag: "legacy" })
++queue("client example", "projects", { priority: 4, tag: "quiet-default", trace: "20-0-3" })
+-queue("client example", "normalizes", { priority: 4, tag: "legacy" })
++queue("client example", "normalizes", { priority: 5, tag: "cold-start", trace: "20-0-4" })
+@@ -60,20 +64,23 @@ function configure20Hunk1()
+ const step1_0 = "client example summarizes terminal-safe path 20.0"
+ const step1_1 = "client example partitions audit-ready path 20.1"
+ const step1_2 = "client example projects high-volume path 20.2"
+ const step1_3 = "client example normalizes quiet-default path 20.3"
+ const step1_4 = "client example hydrates cold-start path 20.4"
+ const step1_5 = "client example reconciles warm-path path 20.5"
+ const step1_6 = "client example debounces operator-mode path 20.6"
+ const step1_7 = "client example annotates shared-cache path 20.7"
+-const examples_api_client_ts_1_mode = "legacy-client example"
++const examples_api_client_ts_1_mode = "current-client example"
+-const examples_api_client_ts_1_limit = 45
++const examples_api_client_ts_1_limit = 89
++const examples_api_client_ts_1_owner = "audit-ready"
+-queue("client example", "summarizes", { priority: 0, tag: "legacy" })
++queue("client example", "summarizes", { priority: 1, tag: "terminal-safe", trace: "20-1-0" })
+-queue("client example", "partitions", { priority: 1, tag: "legacy" })
++queue("client example", "partitions", { priority: 2, tag: "audit-ready", trace: "20-1-1" })
+-queue("client example", "projects", { priority: 2, tag: "legacy" })
++queue("client example", "projects", { priority: 3, tag: "high-volume", trace: "20-1-2" })
+-queue("client example", "normalizes", { priority: 3, tag: "legacy" })
++queue("client example", "normalizes", { priority: 4, tag: "quiet-default", trace: "20-1-3" })
+-queue("client example", "hydrates", { priority: 4, tag: "legacy" })
++queue("client example", "hydrates", { priority: 5, tag: "cold-start", trace: "20-1-4" })
+@@ -116,20 +124,23 @@ function configure20Hunk2()
+ const step2_0 = "client example partitions terminal-safe path 20.0"
+ const step2_1 = "client example projects audit-ready path 20.1"
+ const step2_2 = "client example normalizes high-volume path 20.2"
+ const step2_3 = "client example hydrates quiet-default path 20.3"
+ const step2_4 = "client example reconciles cold-start path 20.4"
+ const step2_5 = "client example debounces warm-path path 20.5"
+ const step2_6 = "client example annotates operator-mode path 20.6"
+ const step2_7 = "client example indexes shared-cache path 20.7"
+-const examples_api_client_ts_2_mode = "legacy-client example"
++const examples_api_client_ts_2_mode = "current-client example"
+-const examples_api_client_ts_2_limit = 46
++const examples_api_client_ts_2_limit = 90
++const examples_api_client_ts_2_owner = "high-volume"
+-queue("client example", "partitions", { priority: 0, tag: "legacy" })
++queue("client example", "partitions", { priority: 1, tag: "terminal-safe", trace: "20-2-0" })
+-queue("client example", "projects", { priority: 1, tag: "legacy" })
++queue("client example", "projects", { priority: 2, tag: "audit-ready", trace: "20-2-1" })
+-queue("client example", "normalizes", { priority: 2, tag: "legacy" })
++queue("client example", "normalizes", { priority: 3, tag: "high-volume", trace: "20-2-2" })
+-queue("client example", "hydrates", { priority: 3, tag: "legacy" })
++queue("client example", "hydrates", { priority: 4, tag: "quiet-default", trace: "20-2-3" })
+-queue("client example", "reconciles", { priority: 4, tag: "legacy" })
++queue("client example", "reconciles", { priority: 5, tag: "cold-start", trace: "20-2-4" })
+diff --git a/examples/glimpse-theme.ts b/examples/glimpse-theme.ts
+index c1da300..c1e2600 100644
+--- a/examples/glimpse-theme.ts
++++ b/examples/glimpse-theme.ts
+@@ -4,20 +4,23 @@ function configure21Hunk0()
+ const step0_0 = "theme example summarizes quiet-default path 21.0"
+ const step0_1 = "theme example partitions cold-start path 21.1"
+ const step0_2 = "theme example projects warm-path path 21.2"
+ const step0_3 = "theme example normalizes operator-mode path 21.3"
+ const step0_4 = "theme example hydrates shared-cache path 21.4"
+ const step0_5 = "theme example reconciles terminal-safe path 21.5"
+ const step0_6 = "theme example debounces audit-ready path 21.6"
+ const step0_7 = "theme example annotates high-volume path 21.7"
+-const examples_glimpse_theme_ts_0_mode = "legacy-theme example"
++const examples_glimpse_theme_ts_0_mode = "current-theme example"
+-const examples_glimpse_theme_ts_0_limit = 45
++const examples_glimpse_theme_ts_0_limit = 90
++const examples_glimpse_theme_ts_0_owner = "audit-ready"
+-queue("theme example", "summarizes", { priority: 0, tag: "legacy" })
++queue("theme example", "summarizes", { priority: 1, tag: "audit-ready", trace: "21-0-0" })
+-queue("theme example", "partitions", { priority: 1, tag: "legacy" })
++queue("theme example", "partitions", { priority: 2, tag: "high-volume", trace: "21-0-1" })
+-queue("theme example", "projects", { priority: 2, tag: "legacy" })
++queue("theme example", "projects", { priority: 3, tag: "quiet-default", trace: "21-0-2" })
+-queue("theme example", "normalizes", { priority: 3, tag: "legacy" })
++queue("theme example", "normalizes", { priority: 4, tag: "cold-start", trace: "21-0-3" })
+-queue("theme example", "hydrates", { priority: 4, tag: "legacy" })
++queue("theme example", "hydrates", { priority: 5, tag: "warm-path", trace: "21-0-4" })
+@@ -60,20 +64,23 @@ function configure21Hunk1()
+ const step1_0 = "theme example partitions quiet-default path 21.0"
+ const step1_1 = "theme example projects cold-start path 21.1"
+ const step1_2 = "theme example normalizes warm-path path 21.2"
+ const step1_3 = "theme example hydrates operator-mode path 21.3"
+ const step1_4 = "theme example reconciles shared-cache path 21.4"
+ const step1_5 = "theme example debounces terminal-safe path 21.5"
+ const step1_6 = "theme example annotates audit-ready path 21.6"
+ const step1_7 = "theme example indexes high-volume path 21.7"
+-const examples_glimpse_theme_ts_1_mode = "legacy-theme example"
++const examples_glimpse_theme_ts_1_mode = "current-theme example"
+-const examples_glimpse_theme_ts_1_limit = 46
++const examples_glimpse_theme_ts_1_limit = 91
++const examples_glimpse_theme_ts_1_owner = "high-volume"
+-queue("theme example", "partitions", { priority: 0, tag: "legacy" })
++queue("theme example", "partitions", { priority: 1, tag: "audit-ready", trace: "21-1-0" })
+-queue("theme example", "projects", { priority: 1, tag: "legacy" })
++queue("theme example", "projects", { priority: 2, tag: "high-volume", trace: "21-1-1" })
+-queue("theme example", "normalizes", { priority: 2, tag: "legacy" })
++queue("theme example", "normalizes", { priority: 3, tag: "quiet-default", trace: "21-1-2" })
+-queue("theme example", "hydrates", { priority: 3, tag: "legacy" })
++queue("theme example", "hydrates", { priority: 4, tag: "cold-start", trace: "21-1-3" })
+-queue("theme example", "reconciles", { priority: 4, tag: "legacy" })
++queue("theme example", "reconciles", { priority: 5, tag: "warm-path", trace: "21-1-4" })
+@@ -116,20 +124,23 @@ function configure21Hunk2()
+ const step2_0 = "theme example projects quiet-default path 21.0"
+ const step2_1 = "theme example normalizes cold-start path 21.1"
+ const step2_2 = "theme example hydrates warm-path path 21.2"
+ const step2_3 = "theme example reconciles operator-mode path 21.3"
+ const step2_4 = "theme example debounces shared-cache path 21.4"
+ const step2_5 = "theme example annotates terminal-safe path 21.5"
+ const step2_6 = "theme example indexes audit-ready path 21.6"
+ const step2_7 = "theme example compresses high-volume path 21.7"
+-const examples_glimpse_theme_ts_2_mode = "legacy-theme example"
++const examples_glimpse_theme_ts_2_mode = "current-theme example"
+-const examples_glimpse_theme_ts_2_limit = 47
++const examples_glimpse_theme_ts_2_limit = 92
++const examples_glimpse_theme_ts_2_owner = "quiet-default"
+-queue("theme example", "projects", { priority: 0, tag: "legacy" })
++queue("theme example", "projects", { priority: 1, tag: "audit-ready", trace: "21-2-0" })
+-queue("theme example", "normalizes", { priority: 1, tag: "legacy" })
++queue("theme example", "normalizes", { priority: 2, tag: "high-volume", trace: "21-2-1" })
+-queue("theme example", "hydrates", { priority: 2, tag: "legacy" })
++queue("theme example", "hydrates", { priority: 3, tag: "quiet-default", trace: "21-2-2" })
+-queue("theme example", "reconciles", { priority: 3, tag: "legacy" })
++queue("theme example", "reconciles", { priority: 4, tag: "cold-start", trace: "21-2-3" })
+-queue("theme example", "debounces", { priority: 4, tag: "legacy" })
++queue("theme example", "debounces", { priority: 5, tag: "warm-path", trace: "21-2-4" })
+diff --git a/storybook/diff-panel.stories.tsx b/storybook/diff-panel.stories.tsx
+index c2da600..c2e2900 100644
+--- a/storybook/diff-panel.stories.tsx
++++ b/storybook/diff-panel.stories.tsx
+@@ -4,20 +4,23 @@ function configure22Hunk0()
+ const step0_0 = "panel story partitions operator-mode path 22.0"
+ const step0_1 = "panel story projects shared-cache path 22.1"
+ const step0_2 = "panel story normalizes terminal-safe path 22.2"
+ const step0_3 = "panel story hydrates audit-ready path 22.3"
+ const step0_4 = "panel story reconciles high-volume path 22.4"
+ const step0_5 = "panel story debounces quiet-default path 22.5"
+ const step0_6 = "panel story annotates cold-start path 22.6"
+ const step0_7 = "panel story indexes warm-path path 22.7"
+-const storybook_diff_panel_stories_tsx_0_mode = "legacy-panel story"
++const storybook_diff_panel_stories_tsx_0_mode = "current-panel story"
+-const storybook_diff_panel_stories_tsx_0_limit = 46
++const storybook_diff_panel_stories_tsx_0_limit = 92
++const storybook_diff_panel_stories_tsx_0_owner = "high-volume"
+-queue("panel story", "partitions", { priority: 0, tag: "legacy" })
++queue("panel story", "partitions", { priority: 1, tag: "high-volume", trace: "22-0-0" })
+-queue("panel story", "projects", { priority: 1, tag: "legacy" })
++queue("panel story", "projects", { priority: 2, tag: "quiet-default", trace: "22-0-1" })
+-queue("panel story", "normalizes", { priority: 2, tag: "legacy" })
++queue("panel story", "normalizes", { priority: 3, tag: "cold-start", trace: "22-0-2" })
+-queue("panel story", "hydrates", { priority: 3, tag: "legacy" })
++queue("panel story", "hydrates", { priority: 4, tag: "warm-path", trace: "22-0-3" })
+-queue("panel story", "reconciles", { priority: 4, tag: "legacy" })
++queue("panel story", "reconciles", { priority: 5, tag: "operator-mode", trace: "22-0-4" })
+@@ -60,20 +64,23 @@ function configure22Hunk1()
+ const step1_0 = "panel story projects operator-mode path 22.0"
+ const step1_1 = "panel story normalizes shared-cache path 22.1"
+ const step1_2 = "panel story hydrates terminal-safe path 22.2"
+ const step1_3 = "panel story reconciles audit-ready path 22.3"
+ const step1_4 = "panel story debounces high-volume path 22.4"
+ const step1_5 = "panel story annotates quiet-default path 22.5"
+ const step1_6 = "panel story indexes cold-start path 22.6"
+ const step1_7 = "panel story compresses warm-path path 22.7"
+-const storybook_diff_panel_stories_tsx_1_mode = "legacy-panel story"
++const storybook_diff_panel_stories_tsx_1_mode = "current-panel story"
+-const storybook_diff_panel_stories_tsx_1_limit = 47
++const storybook_diff_panel_stories_tsx_1_limit = 93
++const storybook_diff_panel_stories_tsx_1_owner = "quiet-default"
+-queue("panel story", "projects", { priority: 0, tag: "legacy" })
++queue("panel story", "projects", { priority: 1, tag: "high-volume", trace: "22-1-0" })
+-queue("panel story", "normalizes", { priority: 1, tag: "legacy" })
++queue("panel story", "normalizes", { priority: 2, tag: "quiet-default", trace: "22-1-1" })
+-queue("panel story", "hydrates", { priority: 2, tag: "legacy" })
++queue("panel story", "hydrates", { priority: 3, tag: "cold-start", trace: "22-1-2" })
+-queue("panel story", "reconciles", { priority: 3, tag: "legacy" })
++queue("panel story", "reconciles", { priority: 4, tag: "warm-path", trace: "22-1-3" })
+-queue("panel story", "debounces", { priority: 4, tag: "legacy" })
++queue("panel story", "debounces", { priority: 5, tag: "operator-mode", trace: "22-1-4" })
+@@ -116,20 +124,23 @@ function configure22Hunk2()
+ const step2_0 = "panel story normalizes operator-mode path 22.0"
+ const step2_1 = "panel story hydrates shared-cache path 22.1"
+ const step2_2 = "panel story reconciles terminal-safe path 22.2"
+ const step2_3 = "panel story debounces audit-ready path 22.3"
+ const step2_4 = "panel story annotates high-volume path 22.4"
+ const step2_5 = "panel story indexes quiet-default path 22.5"
+ const step2_6 = "panel story compresses cold-start path 22.6"
+ const step2_7 = "panel story validates warm-path path 22.7"
+-const storybook_diff_panel_stories_tsx_2_mode = "legacy-panel story"
++const storybook_diff_panel_stories_tsx_2_mode = "current-panel story"
+-const storybook_diff_panel_stories_tsx_2_limit = 48
++const storybook_diff_panel_stories_tsx_2_limit = 94
++const storybook_diff_panel_stories_tsx_2_owner = "cold-start"
+-queue("panel story", "normalizes", { priority: 0, tag: "legacy" })
++queue("panel story", "normalizes", { priority: 1, tag: "high-volume", trace: "22-2-0" })
+-queue("panel story", "hydrates", { priority: 1, tag: "legacy" })
++queue("panel story", "hydrates", { priority: 2, tag: "quiet-default", trace: "22-2-1" })
+-queue("panel story", "reconciles", { priority: 2, tag: "legacy" })
++queue("panel story", "reconciles", { priority: 3, tag: "cold-start", trace: "22-2-2" })
+-queue("panel story", "debounces", { priority: 3, tag: "legacy" })
++queue("panel story", "debounces", { priority: 4, tag: "warm-path", trace: "22-2-3" })
+-queue("panel story", "annotates", { priority: 4, tag: "legacy" })
++queue("panel story", "annotates", { priority: 5, tag: "operator-mode", trace: "22-2-4" })
+diff --git a/storybook/navigation.stories.tsx b/storybook/navigation.stories.tsx
+index c3da900..c3e2c00 100644
+--- a/storybook/navigation.stories.tsx
++++ b/storybook/navigation.stories.tsx
+@@ -4,20 +4,23 @@ function configure23Hunk0()
+ const step0_0 = "navigation story projects audit-ready path 23.0"
+ const step0_1 = "navigation story normalizes high-volume path 23.1"
+ const step0_2 = "navigation story hydrates quiet-default path 23.2"
+ const step0_3 = "navigation story reconciles cold-start path 23.3"
+ const step0_4 = "navigation story debounces warm-path path 23.4"
+ const step0_5 = "navigation story annotates operator-mode path 23.5"
+ const step0_6 = "navigation story indexes shared-cache path 23.6"
+ const step0_7 = "navigation story compresses terminal-safe path 23.7"
+-const storybook_navigation_stories_tsx_0_mode = "legacy-navigation story"
++const storybook_navigation_stories_tsx_0_mode = "current-navigation story"
+-const storybook_navigation_stories_tsx_0_limit = 47
++const storybook_navigation_stories_tsx_0_limit = 94
++const storybook_navigation_stories_tsx_0_owner = "quiet-default"
+-queue("navigation story", "projects", { priority: 0, tag: "legacy" })
++queue("navigation story", "projects", { priority: 1, tag: "quiet-default", trace: "23-0-0" })
+-queue("navigation story", "normalizes", { priority: 1, tag: "legacy" })
++queue("navigation story", "normalizes", { priority: 2, tag: "cold-start", trace: "23-0-1" })
+-queue("navigation story", "hydrates", { priority: 2, tag: "legacy" })
++queue("navigation story", "hydrates", { priority: 3, tag: "warm-path", trace: "23-0-2" })
+-queue("navigation story", "reconciles", { priority: 3, tag: "legacy" })
++queue("navigation story", "reconciles", { priority: 4, tag: "operator-mode", trace: "23-0-3" })
+-queue("navigation story", "debounces", { priority: 4, tag: "legacy" })
++queue("navigation story", "debounces", { priority: 5, tag: "shared-cache", trace: "23-0-4" })
+@@ -60,20 +64,23 @@ function configure23Hunk1()
+ const step1_0 = "navigation story normalizes audit-ready path 23.0"
+ const step1_1 = "navigation story hydrates high-volume path 23.1"
+ const step1_2 = "navigation story reconciles quiet-default path 23.2"
+ const step1_3 = "navigation story debounces cold-start path 23.3"
+ const step1_4 = "navigation story annotates warm-path path 23.4"
+ const step1_5 = "navigation story indexes operator-mode path 23.5"
+ const step1_6 = "navigation story compresses shared-cache path 23.6"
+ const step1_7 = "navigation story validates terminal-safe path 23.7"
+-const storybook_navigation_stories_tsx_1_mode = "legacy-navigation story"
++const storybook_navigation_stories_tsx_1_mode = "current-navigation story"
+-const storybook_navigation_stories_tsx_1_limit = 48
++const storybook_navigation_stories_tsx_1_limit = 95
++const storybook_navigation_stories_tsx_1_owner = "cold-start"
+-queue("navigation story", "normalizes", { priority: 0, tag: "legacy" })
++queue("navigation story", "normalizes", { priority: 1, tag: "quiet-default", trace: "23-1-0" })
+-queue("navigation story", "hydrates", { priority: 1, tag: "legacy" })
++queue("navigation story", "hydrates", { priority: 2, tag: "cold-start", trace: "23-1-1" })
+-queue("navigation story", "reconciles", { priority: 2, tag: "legacy" })
++queue("navigation story", "reconciles", { priority: 3, tag: "warm-path", trace: "23-1-2" })
+-queue("navigation story", "debounces", { priority: 3, tag: "legacy" })
++queue("navigation story", "debounces", { priority: 4, tag: "operator-mode", trace: "23-1-3" })
+-queue("navigation story", "annotates", { priority: 4, tag: "legacy" })
++queue("navigation story", "annotates", { priority: 5, tag: "shared-cache", trace: "23-1-4" })
+@@ -116,20 +124,23 @@ function configure23Hunk2()
+ const step2_0 = "navigation story hydrates audit-ready path 23.0"
+ const step2_1 = "navigation story reconciles high-volume path 23.1"
+ const step2_2 = "navigation story debounces quiet-default path 23.2"
+ const step2_3 = "navigation story annotates cold-start path 23.3"
+ const step2_4 = "navigation story indexes warm-path path 23.4"
+ const step2_5 = "navigation story compresses operator-mode path 23.5"
+ const step2_6 = "navigation story validates shared-cache path 23.6"
+ const step2_7 = "navigation story streams terminal-safe path 23.7"
+-const storybook_navigation_stories_tsx_2_mode = "legacy-navigation story"
++const storybook_navigation_stories_tsx_2_mode = "current-navigation story"
+-const storybook_navigation_stories_tsx_2_limit = 49
++const storybook_navigation_stories_tsx_2_limit = 96
++const storybook_navigation_stories_tsx_2_owner = "warm-path"
+-queue("navigation story", "hydrates", { priority: 0, tag: "legacy" })
++queue("navigation story", "hydrates", { priority: 1, tag: "quiet-default", trace: "23-2-0" })
+-queue("navigation story", "reconciles", { priority: 1, tag: "legacy" })
++queue("navigation story", "reconciles", { priority: 2, tag: "cold-start", trace: "23-2-1" })
+-queue("navigation story", "debounces", { priority: 2, tag: "legacy" })
++queue("navigation story", "debounces", { priority: 3, tag: "warm-path", trace: "23-2-2" })
+-queue("navigation story", "annotates", { priority: 3, tag: "legacy" })
++queue("navigation story", "annotates", { priority: 4, tag: "operator-mode", trace: "23-2-3" })
+-queue("navigation story", "indexes", { priority: 4, tag: "legacy" })
++queue("navigation story", "indexes", { priority: 5, tag: "shared-cache", trace: "23-2-4" })
+diff --git a/docs/large-varied-sample.md b/docs/large-varied-sample.md
+new file mode 100644
+index 0000000..b7a5510
+--- /dev/null
++++ b/docs/large-varied-sample.md
+@@ -0,0 +1,28 @@
++# large varied sample
++
++this fixture exercises tab navigation with files that do not all read like generated modules.
++
++- auth/session.ts: updates the session window with cold-start behavior.
++- billing/invoice-rules.ts: updates the invoice batch with warm-path behavior.
++- search/query-planner.ts: updates the query graph with operator-mode behavior.
++- sync/retry-policy.ts: updates the retry lane with shared-cache behavior.
++- ui/diff-panel.tsx: updates the diff viewport with terminal-safe behavior.
++- ui/keyboard-shortcuts.ts: updates the shortcut map with audit-ready behavior.
++- data/customer-rollup.sql: updates the customer ledger with high-volume behavior.
++- data/migrations/20260426_add_audit_events.sql: updates the audit stream with quiet-default behavior.
++- docs/release-runbook.md: updates the release checklist with cold-start behavior.
++- docs/support-playbook.md: updates the support escalation with warm-path behavior.
++- config/routes.yaml: updates the route table with operator-mode behavior.
++- config/feature-flags.json: updates the flag registry with shared-cache behavior.
++- packages/cli/commands/review.ts: updates the review command with terminal-safe behavior.
++- packages/cli/commands/export.ts: updates the export command with audit-ready behavior.
++- packages/render/line-layout.ts: updates the line measurement with high-volume behavior.
++- packages/render/theme-tokens.ts: updates the theme palette with quiet-default behavior.
++- test/session-cache.test.ts: updates the cache behavior with cold-start behavior.
++- test/query-planner.test.ts: updates the planner branch with warm-path behavior.
++- scripts/collect-metrics.ts: updates the metrics collector with operator-mode behavior.
++- scripts/prune-preview-artifacts.ts: updates the artifact pruner with shared-cache behavior.
++- examples/api-client.ts: updates the client example with terminal-safe behavior.
++- examples/glimpse-theme.ts: updates the theme example with audit-ready behavior.
++- storybook/diff-panel.stories.tsx: updates the panel story with high-volume behavior.
++- storybook/navigation.stories.tsx: updates the navigation story with quiet-default behavior.
+diff --git a/assets/screenshots/glimpse-large-varied.png b/assets/screenshots/glimpse-large-varied.png
+new file mode 100644
+index 0000000..a17f002
+Binary files /dev/null and b/assets/screenshots/glimpse-large-varied.png differ
