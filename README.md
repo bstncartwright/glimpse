@@ -31,16 +31,56 @@ bun install
 bun run dev
 ```
 
-## publish
+## publish (github release -> npm)
 
-the package is set up for public npm publishing:
+a github actions workflow now publishes to npm whenever a github release is marked **published**.
+
+### one-time setup (npm trusted publishing / OIDC)
+
+1. on npm, open your package settings and configure a **Trusted Publisher** for GitHub Actions.
+2. use your github owner/repo and set workflow filename to `.github/workflows/release-publish.yml`.
+3. make sure `package.json` has the correct `name` and a `repository.url` that matches your github repo.
+4. publish once and verify provenance appears on npm (trusted publishing enables this automatically for public repos/packages).
+
+> with trusted publishing, you do **not** need an `NPM_TOKEN` repository secret.
+
+### release process (manual)
+
+1. bump `version` in `package.json` (for example `0.1.0` -> `0.1.1`).
+2. run local checks:
 
 ```bash
+bun run typecheck
+bun test
 bun pm pack --dry-run
-bun publish --access public
 ```
 
-the package ships the source files directly and uses `#!/usr/bin/env bun` for the command entrypoint. native compiled binaries may come later, but the first public release intentionally stays bun-native so every platform uses the same package.
+3. commit and push.
+4. create a git tag that matches the package version with a `v` prefix (example: `v0.1.1`).
+5. create/publish a github release from that tag.
+6. the `Publish to npm` workflow runs and publishes with `npm publish --access public` using OIDC.
+
+> the publish workflow validates that the release tag matches `package.json` (for example, release `v0.1.1` must match `"version": "0.1.1"`). this avoids publishing the wrong version.
+
+### one-click release (workflow dispatch)
+
+if you want a single click release, run the **Prepare and release** workflow from the actions tab.
+
+it will:
+
+1. check out `main`
+2. bump `package.json` version (patch/minor/major, or use an explicit version input)
+3. commit + push that change to `main`
+4. create and push `v<version>` tag
+5. create and publish a github release for that tag
+6. trigger `Publish to npm` automatically via the release event
+
+notes:
+- this workflow needs `contents: write` permission (already configured).
+- publishing happens in `release-publish.yml` using npm trusted publishing (OIDC), not a long-lived token.
+- if a tag already exists, it fails safely before changing anything else.
+
+the package ships source files directly and uses `#!/usr/bin/env bun` for the command entrypoint. native compiled binaries may come later, but the first public release intentionally stays bun-native so every platform uses the same package.
 
 ## sources
 
@@ -82,10 +122,13 @@ q                  quit
 
 ## release checklist
 
+- either run **Prepare and release** (one click), or manually do the steps below
+- bump `version` in `package.json`
 - run `bun test`
 - run `bun run typecheck`
-- run `bun pm pack --dry-run` and inspect the package contents
-- publish with `bun publish --access public`
+- run `bun pm pack --dry-run` and inspect package contents
+- create tag `v<package.json version>`
+- publish a github release from that tag (workflow publishes to npm)
 
 ## license
 

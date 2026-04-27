@@ -1,0 +1,147 @@
+name: Prepare and release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Semver bump type
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      version:
+        description: Optional explicit version (overrides bump)
+        required: false
+        type: string
+      prerelease:
+        description: Mark the GitHub release as prerelease
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Resolve next version
+        id: version
+        env:
+          INPUT_BUMP: ${{ github.event.inputs.bump }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          NEXT_VERSION=$(bun --eval '
+            import { readFileSync } from "node:fs";
+
+            const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+            const current = pkg.version;
+            const bump = process.env.INPUT_BUMP ?? "patch";
+            const explicit = (process.env.INPUT_VERSION ?? "").trim();
+
+            const valid = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$/;
+
+            if (explicit.length > 0) {
+              if (!valid.test(explicit)) {
+                console.error(`Invalid explicit version: ${explicit}`);
+                process.exit(1);
+              }
+              console.log(explicit);
+              process.exit(0);
+            }
+
+            const match = current.match(/^(\d+)\.(\d+)\.(\d+)$/);
+            if (!match) {
+              console.error(`Current version is not simple semver (x.y.z): ${current}`);
+              process.exit(1);
+            }
+
+            let [major, minor, patch] = match.slice(1).map((part) => Number.parseInt(part, 10));
+            if (bump === "major") {
+              major += 1;
+              minor = 0;
+              patch = 0;
+            } else if (bump === "minor") {
+              minor += 1;
+              patch = 0;
+            } else {
+              patch += 1;
+            }
+
+            console.log(`${major}.${minor}.${patch}`);
+          ')
+
+          echo "next=${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure tag does not already exist
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag }}
+        run: |
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists."
+            exit 1
+          fi
+
+      - name: Update package.json version
+        env:
+          NEXT_VERSION: ${{ steps.version.outputs.next }}
+        run: |
+          bun --eval '
+            import { readFileSync, writeFileSync } from "node:fs";
+
+            const next = process.env.NEXT_VERSION;
+            if (!next) {
+              console.error("NEXT_VERSION is missing");
+              process.exit(1);
+            }
+
+            const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+            pkg.version = next;
+            writeFileSync("package.json", `${JSON.stringify(pkg, null, 2)}\n`);
+          '
+
+      - name: Commit and push version update
+        env:
+          NEXT_VERSION: ${{ steps.version.outputs.next }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add package.json
+          git commit -m "chore(release): v${NEXT_VERSION}"
+          git push origin HEAD:main
+
+      - name: Create git tag
+        env:
+          TAG_NAME: ${{ steps.version.outputs.tag }}
+        run: |
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.version.outputs.tag }}
+          PRERELEASE: ${{ github.event.inputs.prerelease }}
+        run: |
+          if [ "$PRERELEASE" = "true" ]; then
+            gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Automated release for $TAG_NAME" --prerelease
+          else
+            gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Automated release for $TAG_NAME"
+          fi
