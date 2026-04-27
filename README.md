@@ -9,7 +9,7 @@ glimpse opens a git diff in a keyboard-native terminal ui with file tabs, side-b
 glimpse runs on [bun](https://bun.sh/). install bun first, then install the cli from npm:
 
 ```bash
-bun install -g @bstn/glimpse
+bun install -g @bstncartwright/glimpse
 ```
 
 then run:
@@ -18,7 +18,7 @@ then run:
 glimpse
 ```
 
-the npm package is scoped as `@bstn/glimpse`, but the installed command is `glimpse`.
+the npm package is scoped as `@bstncartwright/glimpse`, but the installed command is `glimpse`.
 
 ## local development
 
