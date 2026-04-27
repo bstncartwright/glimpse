@@ -68,9 +68,9 @@ if you want a single click release, run the **Prepare and release** workflow fro
 
 it will:
 
-1. check out `main`
+1. check out the repository default branch
 2. bump `package.json` version (patch/minor/major, or use an explicit version input)
-3. commit + push that change to `main`
+3. commit + push that change to the default branch
 4. create and push `v<version>` tag
 5. create and publish a github release for that tag with auto-generated release notes
 6. trigger `Publish to npm` automatically via the release event
