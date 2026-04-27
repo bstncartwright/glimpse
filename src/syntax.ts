@@ -259,6 +259,21 @@ function toRGBA(color: ColorInput | RGBA): RGBA {
 
 function normalizeFiletype(filetype: string | undefined): string | undefined {
   switch (filetype) {
+    case "js":
+    case "mjs":
+    case "cjs":
+    case "jsx":
+    case "javascriptreact":
+      return "javascript"
+    case "ts":
+    case "mts":
+    case "cts":
+      return "typescript"
+    case "tsx":
+    case "typescriptreact":
+      return "tsx"
+    case "vue":
+      return "vue"
     case "shell":
     case "sh":
     case "zsh":
@@ -278,6 +293,12 @@ function filetypeFromPath(path: string): string | undefined {
   const basename = path.split("/").at(-1) ?? path
   const extension = basename.includes(".") ? basename.split(".").at(-1)?.toLowerCase() : undefined
   switch (extension) {
+    case "jsx":
+      return "javascript"
+    case "tsx":
+      return "tsx"
+    case "vue":
+      return "vue"
     case "pgsql":
     case "psql":
       return "sql"
