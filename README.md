@@ -6,6 +6,16 @@ glimpse opens a git diff in a keyboard-native terminal ui with file tabs, side-b
 
 when you run `glimpse` outside a git worktree, it scans the directories below the current folder for git repos. if it finds 1-5 repos, it opens their diffs together with repo-prefixed file tabs; if it finds more than 5, it asks before loading them all.
 
+## demo
+
+![glimpse demo](assets/glimpse-demo.gif)
+
+the demo video is also available as [mp4](assets/glimpse-demo.mp4). regenerate it with:
+
+```bash
+vhs demo/glimpse.tape
+```
+
 ## why
 
 this project started as a tool i built to help myself review agents' work better in a place where i already am: the terminal.
