@@ -1,0 +1,39 @@
+// TUI Test Snapshot v1
+
+exports[`glimpse terminal ui › renders the review chrome and the first side-by-side diff | 1`] = String.raw`
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ glimpse  /Users/bstn/dev/glimpse/fixtures/realistic-code-sample.diff  0/5 viewed                                       │
+│ ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│ │ src/orders/create-order.ts │ src/orders/order-summary.tsx │ db/migrations/20260426_add_order_idem… │   1/5 files › │ │
+│  src/orders/create-order.ts m +43 -22                                                                 @@ -1,43 +1,74   │
+│────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────│
+│┌─────────────────────────────────────────────────────────┬───────────────────────────────────────────────────────────┐ │
+│├─────────────────────────────────────────────────────────┼ @@ -1 +1 ─────────────────────────────────────────────────┤ │
+││                                                         │                                                           │ │
+││    1 import { db } from "../db"                         │    1 import { db } from "../db"                           │ │
+││    2 import { enqueueReceiptEmail } from                │    2 import { enqueueReceiptEmail } from                  │ │
+││      "../mail/receipts"                                 │      "../mail/receipts"                                   │ │
+││    3 import { reserveInventory } from                   │    3 import { reserveInventory } from                     │ │
+││      "../warehouse/inventory"                           │      "../warehouse/inventory"                             │ │
+││    4 import type { CartLine, Customer, Order } from     │    4 import type { CartLine, Customer, Order } from       │ │
+││      "./types"                                          │      "./types"                                            │ │
+││    5                                                    │    5                                                      │ │
+││    6 type CreateOrderInput = {                          │    6 type CreateOrderInput = {                            │ │
+││    7   customer: Customer                               │    7   customer: Customer                                 │ │
+││    8   lines: CartLine[]                                │    8   lines: CartLine[]                                  │ │
+││    9   couponCode?: string                              │    9   couponCode?: string                                │ │
+││                                                         █+  10   idempotencyKey?: string                            │ │
+││   10 }                                                  │   11 }                                                    │ │
+││   11                                                    │   12                                                      │ │
+││   12 export async function createOrder(input:           │   13 export async function createOrder(input:             │ │
+││      CreateOrderInput): Promise<Order> {                │      CreateOrderInput): Promise<Order> {                  │ │
+││                                                         █+  14   if (input.lines.length === 0) {                    │ │
+││                                                         █+  15     throw new Error("cannot create an order with     │ │
+││                                                         █      an empty cart")                                      │ │
+││                                                         █+  16   }                                                  │ │
+│█-  13   const subtotal = input.lines.reduce((sum,        │                                                           │ │
+│└─────────────────────────────────────────────────────────┴───────────────────────────────────────────────────────────┘ │
+│            s side-by-side  W wrap:on  i inline:word-alt  c viewed  h/l horiz  tab tabs  w/b hunks+tabs  ? help  q quit │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+`;
+

@@ -64,6 +64,7 @@ a github actions workflow now publishes to npm whenever a github release is mark
 ```bash
 bun run typecheck
 bun test
+bun run test:e2e
 bun pm pack --dry-run
 ```
 
@@ -145,6 +146,7 @@ q                  quit
 - either run **Prepare and release** (one click), or manually do the steps below
 - bump `version` in `package.json`
 - run `bun test`
+- run `bun run test:e2e`
 - run `bun run typecheck`
 - run `bun pm pack --dry-run` and inspect package contents
 - create tag `v<package.json version>`

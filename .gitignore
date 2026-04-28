@@ -31,6 +31,8 @@ exedev@*
 # caches
 .eslintcache
 .cache
+.tui-test
+tui-traces
 *.tsbuildinfo
 
 # IntelliJ based IDEs
