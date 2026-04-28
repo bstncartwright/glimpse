@@ -1,6 +1,6 @@
 {
   "name": "@bstncartwright/glimpse",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "full-screen terminal diff review for bun-powered terminals",
   "module": "src/index.ts",
   "type": "module",
