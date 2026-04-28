@@ -1,3 +1,2 @@
 ((script_element
-   (raw_text) @injection.content)
- (#set! injection.language "typescript"))
+   (raw_text) @injection.content))
