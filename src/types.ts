@@ -4,6 +4,7 @@ export type DiffSource =
   | { kind: "unstaged"; label: "unstaged" }
   | { kind: "staged"; label: "staged" }
   | { kind: "range"; label: string; range: string }
+  | { kind: "multi-repo"; label: string; repoCount: number }
   | { kind: "stdin"; label: "stdin" }
   | { kind: "file"; label: string; path: string }
 

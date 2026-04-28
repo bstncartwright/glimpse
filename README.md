@@ -4,6 +4,8 @@ full-screen terminal diff review, built with bun and opentui.
 
 glimpse opens a git diff in a keyboard-native terminal ui with file tabs, side-by-side or stacked diff layouts, hunk navigation, word wrap, inline highlights, and syntax coloring for common languages.
 
+when you run `glimpse` outside a git worktree, it scans the directories below the current folder for git repos. if it finds 1-5 repos, it opens their diffs together with repo-prefixed file tabs; if it finds more than 5, it asks before loading them all.
+
 ## why
 
 this project started as a tool i built to help myself review agents' work better in a place where i already am: the terminal.
@@ -92,6 +94,14 @@ git diff main...HEAD | glimpse --stdin
 glimpse --file patch.diff
 glimpse --file fixtures/realistic-code-sample.diff
 ```
+
+when run from a folder that is not a git repo:
+
+```bash
+glimpse
+```
+
+opens changed files across the nested repos below that folder.
 
 ## keys
 
