@@ -6,6 +6,10 @@
   "type": "module",
   "license": "MIT",
   "author": "Boston Cartwright <bostonc@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bstncartwright/glimpse"
+  },
   "keywords": [
     "bun",
     "cli",
