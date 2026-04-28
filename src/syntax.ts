@@ -6,6 +6,7 @@ import {
   pathToFiletype,
   treeSitterToTextChunks,
   type ColorInput,
+  type SimpleHighlight,
   type TextChunk,
   type TreeSitterClient,
 } from "@opentui/core"
@@ -168,13 +169,17 @@ function primeSyntaxSide(
 
   const promise = state.client
     .highlightOnce(document.content, filetype)
-    .then((result) => {
+    .then(async (result) => {
       if (result.error || result.warning || !result.highlights) {
         state.cache.set(key, { status: "failed" })
         return
       }
 
-      const chunks = treeSitterToTextChunks(document.content, result.highlights, state.style, { enabled: false })
+      const highlights =
+        filetype === "vue"
+          ? await mergeVueEmbeddedHighlights(state.client, document.content, result.highlights)
+          : result.highlights
+      const chunks = treeSitterToTextChunks(document.content, highlights, state.style, { enabled: false })
       state.cache.set(key, { status: "ready", lines: splitChunksByLine(chunks) })
       onReady?.()
     })
@@ -307,6 +312,83 @@ function filetypeFromPath(path: string): string | undefined {
     default:
       return undefined
   }
+}
+
+async function mergeVueEmbeddedHighlights(
+  client: TreeSitterClient,
+  content: string,
+  baseHighlights: SimpleHighlight[],
+): Promise<SimpleHighlight[]> {
+  const merged = [...baseHighlights]
+
+  for (const block of findVueEmbeddedBlocks(content)) {
+    const result = await client.highlightOnce(block.content, block.filetype)
+    if (result.error || result.warning || !result.highlights) continue
+
+    for (const [start, end, group, meta] of result.highlights) {
+      merged.push([start + block.start, end + block.start, group, meta])
+    }
+  }
+
+  merged.sort((a, b) => a[0] - b[0] || a[1] - b[1])
+  return merged
+}
+
+function findVueEmbeddedBlocks(content: string): Array<{ start: number; content: string; filetype: string }> {
+  const blockPattern = /<(script|style)\b([^>]*)>([\s\S]*?)<\/\1>/gi
+  const blocks: Array<{ start: number; content: string; filetype: string }> = []
+
+  for (const match of content.matchAll(blockPattern)) {
+    const kind = match[1]?.toLowerCase()
+    const attributes = match[2] ?? ""
+    const body = match[3] ?? ""
+    const whole = match[0]
+    const wholeIndex = match.index
+    if (!kind || whole === undefined || wholeIndex === undefined || body.length === 0) continue
+
+    const filetype = resolveVueEmbeddedFiletype(kind, attributes)
+    if (!filetype) continue
+
+    const bodyIndex = whole.indexOf(body)
+    if (bodyIndex < 0) continue
+
+    blocks.push({
+      start: wholeIndex + bodyIndex,
+      content: body,
+      filetype,
+    })
+  }
+
+  return blocks
+}
+
+function resolveVueEmbeddedFiletype(kind: string, attributes: string): string | null {
+  const lang = attributes.match(/\blang\s*=\s*['"]([^'"]+)['"]/i)?.[1]?.toLowerCase()
+
+  if (kind === "style") {
+    if (!lang) return "css"
+    if (["css", "scss", "sass", "less", "postcss"].includes(lang)) return "css"
+    return null
+  }
+
+  if (kind === "script") {
+    if (!lang) return "javascript"
+    switch (lang) {
+      case "ts":
+      case "typescript":
+        return "typescript"
+      case "tsx":
+        return "tsx"
+      case "js":
+      case "javascript":
+      case "jsx":
+        return "javascript"
+      default:
+        return null
+    }
+  }
+
+  return null
 }
 
 function hashString(value: string): string {

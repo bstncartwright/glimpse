@@ -5,7 +5,9 @@ import {
   chunkTextLength,
   createSyntaxState,
   detectFiletype,
+  getSyntaxLine,
   makeChunk,
+  primeSyntaxForFile,
   sliceAndTruncateChunks,
   sliceWordWrappedChunks,
   splitChunksByLine,
@@ -111,18 +113,61 @@ describe("syntax helpers", () => {
   test("highlights sql and vue with the registered language pack", async () => {
     const state = createSyntaxState()
     const sqlResult = await state.client.highlightOnce("select id from users where active = true;\n", "sql")
-    const vueResult = await state.client.highlightOnce(
-      `<template><div :count=\"count\">{{ count }}</div></template>\n<script setup lang=\"ts\">const count = 1</script>\n`,
-      "vue",
-    )
+    const vueFile: DiffFile = {
+      oldPath: "Component.vue",
+      newPath: "Component.vue",
+      displayPath: "Component.vue",
+      status: "modified",
+      stats: { added: 0, deleted: 0 },
+      hunks: [
+        {
+          oldStart: 1,
+          oldLines: 3,
+          newStart: 1,
+          newLines: 3,
+          header: "",
+          rows: [
+            {
+              kind: "context",
+              oldLineNumber: 1,
+              newLineNumber: 1,
+              oldText: "<template><div :count=\"count\">{{ count }}</div></template>",
+              newText: "<template><div :count=\"count\">{{ count }}</div></template>",
+            },
+            {
+              kind: "context",
+              oldLineNumber: 2,
+              newLineNumber: 2,
+              oldText: "<script setup lang=\"ts\">const count = 1</script>",
+              newText: "<script setup lang=\"ts\">const count = 1</script>",
+            },
+            {
+              kind: "context",
+              oldLineNumber: 3,
+              newLineNumber: 3,
+              oldText: "<style lang=\"css\">.counter { color: red; }</style>",
+              newText: "<style lang=\"css\">.counter { color: red; }</style>",
+            },
+          ],
+        },
+      ],
+    }
+    await new Promise<void>((resolve) => {
+      let readyCount = 0
+      primeSyntaxForFile(state, vueFile, () => {
+        readyCount += 1
+        if (readyCount >= 2) resolve()
+      })
+    })
+    const scriptChunks = getSyntaxLine(state, vueFile, "new", vueFile.hunks[0]!.rows[1]!)
+    const styleChunks = getSyntaxLine(state, vueFile, "new", vueFile.hunks[0]!.rows[2]!)
     await state.client.destroy()
 
     expect(sqlResult.error).toBeUndefined()
     expect(sqlResult.warning).toBeUndefined()
     expect(sqlResult.highlights?.length).toBeGreaterThan(0)
-    expect(vueResult.error).toBeUndefined()
-    expect(vueResult.warning).toBeUndefined()
-    expect(vueResult.highlights?.length).toBeGreaterThan(0)
+    expect(scriptChunks?.some((chunk) => chunk.text === "const" && chunk.attributes !== undefined)).toBe(true)
+    expect(styleChunks?.some((chunk) => chunk.text === "color" && chunk.attributes !== undefined)).toBe(true)
   })
 
   test("includes react and vue-related filetype aliases in the language pack", () => {
