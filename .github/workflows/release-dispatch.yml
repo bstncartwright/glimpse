@@ -26,6 +26,7 @@ jobs:
   prepare-release:
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
 
     steps:
@@ -146,3 +147,11 @@ jobs:
           else
             gh release create "$TAG_NAME" --title "$TAG_NAME" --generate-notes
           fi
+
+      - name: Start npm publish workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          TAG_NAME: ${{ steps.version.outputs.tag }}
+        run: |
+          gh workflow run release-publish.yml --ref "$DEFAULT_BRANCH" --field tag="$TAG_NAME"
