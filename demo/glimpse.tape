@@ -17,7 +17,7 @@ Set TypingSpeed 35ms
 Set Theme "Catppuccin Mocha"
 
 Sleep 500ms
-Type "bun run src/index.ts --file fixtures/large-varied-sample.diff"
+Type "glimpse --file fixtures/realistic-code-sample.diff"
 Sleep 400ms
 Enter
 Wait+Screen /glimpse/

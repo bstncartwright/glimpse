@@ -1,0 +1,44 @@
+name: Regenerate demo video
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg ttyd
+
+      - name: Install VHS
+        run: |
+          curl -fsSL https://github.com/charmbracelet/vhs/releases/download/v0.10.0/vhs_0.10.0_Linux_x86_64.tar.gz -o vhs.tar.gz
+          tar -xzf vhs.tar.gz
+          sudo mv vhs /usr/local/bin/vhs
+          vhs --version
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Regenerate demo assets
+        run: vhs demo/glimpse.tape
+
+      - name: Commit updated demo assets
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "chore: regenerate demo video assets"
+          file_pattern: assets/glimpse-demo.gif assets/glimpse-demo.mp4

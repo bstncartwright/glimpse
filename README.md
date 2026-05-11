@@ -10,11 +10,17 @@ when you run `glimpse` outside a git worktree, it scans the directories below th
 
 ![glimpse demo](assets/glimpse-demo.gif)
 
-the demo video is also available as [mp4](assets/glimpse-demo.mp4). regenerate it with:
+the demo video is also available as [mp4](assets/glimpse-demo.mp4).
+
+the demo uses the installed `glimpse` command against `fixtures/realistic-code-sample.diff` for a repo-like walkthrough.
+
+to regenerate locally:
 
 ```bash
 vhs demo/glimpse.tape
 ```
+
+if you do not have `vhs`/`ffmpeg`/`ttyd` installed locally, run the **Regenerate demo video** github action from the actions tab; it will regenerate `assets/glimpse-demo.gif` and `assets/glimpse-demo.mp4` and commit the result automatically.
 
 ## why
 
